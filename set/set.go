@@ -4,34 +4,34 @@ package set
 import "sync"
 
 // Set contains a map as its backing data structure and a mutex to ensure thread safety.
-type Set struct {
+type Set[T any] struct {
 	Lock sync.RWMutex
-	Data map[string]struct{}
+	Data map[any]struct{}
 }
 
 // New initializes and returns a new set.
-func New() *Set {
-	return &Set{sync.RWMutex{}, make(map[string]struct{})}
+func New[T any]() *Set[T] {
+	return &Set{sync.RWMutex{}, make(map[T]struct{})}
 }
 
-// Add just adds a new string to the set.
-func (s *Set) Add(str string) {
+// Add just adds a new value to the set.
+func (s *Set[T]) Add(val T) {
 	s.Lock.Lock()
 	defer s.Lock.Unlock()
-	s.Data[str] = struct{}{}
+	s.Data[val] = struct{}{}
 }
 
-// Has returns true if the set has str.
-func (s *Set) Has(str string) bool {
+// Has returns true if the set has val.
+func (s *Set[T]) Has(val T) bool {
 	s.Lock.RLock()
 	defer s.Lock.RUnlock()
-	_, ok := s.Data[str]
+	_, ok := s.Data[val]
 	return ok
 }
 
-// Delete just deletes str from the set.
-func (s *Set) Delete(str string) {
+// Delete just deletes val from the set.
+func (s *Set) Delete(val T) {
 	s.Lock.Lock()
 	defer s.Lock.Unlock()
-	delete(s.Data, str)
+	delete(s.Data, val)
 }
