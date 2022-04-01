@@ -1,17 +1,17 @@
-// Package set implements a set data structure for strings. It uses map as its backing data structure.
+// Package set implements a set data structure for comparables. It uses map as its backing data structure.
 package set
 
 import "sync"
 
 // Set contains a map as its backing data structure and a mutex to ensure thread safety.
-type Set[T any] struct {
+type Set[T comparable] struct {
 	Lock sync.RWMutex
-	Data map[any]struct{}
+	Data map[T]struct{}
 }
 
 // New initializes and returns a new set.
-func New[T any]() *Set[T] {
-	return &Set{sync.RWMutex{}, make(map[T]struct{})}
+func New[T comparable]() *Set[T] {
+	return &Set[T]{sync.RWMutex{}, make(map[T]struct{})}
 }
 
 // Add just adds a new value to the set.
