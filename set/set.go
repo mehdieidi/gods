@@ -30,7 +30,7 @@ func (s *Set[T]) Has(val T) bool {
 }
 
 // Delete just deletes val from the set.
-func (s *Set) Delete(val T) {
+func (s *Set[T]) Delete(val T) {
 	s.Lock.Lock()
 	defer s.Lock.Unlock()
 	delete(s.Data, val)
