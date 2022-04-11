@@ -1,6 +1,9 @@
 package singlylinkedlist
 
-import "strconv"
+import (
+	"errors"
+	"strconv"
+)
 
 type SinglyLinkedList struct {
 	Head *Node
@@ -38,6 +41,38 @@ func (s *SinglyLinkedList) AddLast(data int) {
 	s.Size++
 }
 
+func (s *SinglyLinkedList) Add(data int, index int) error {
+	if index < 0 || index > s.Size {
+		return errors.New("invalid index")
+	}
+
+	if index == 0 {
+		s.AddFirst(data)
+		return nil
+	}
+	if index == s.Size {
+		s.AddLast(data)
+		return nil
+	}
+
+	var count int
+
+	current := s.Head
+	for ; current != nil; current = current.Next {
+		count++
+		if count == index {
+			break
+		}
+	}
+
+	newNode := Node{Data: data, Next: current.Next}
+	current.Next = &newNode
+
+	s.Size++
+
+	return nil
+}
+
 func (s *SinglyLinkedList) RemoveFirst() {
 	s.Head = s.Head.Next
 	s.Size--
@@ -69,6 +104,38 @@ func (s *SinglyLinkedList) RemoveLast() {
 		s.Tail = nil
 		s.Head = nil
 	}
+}
+
+func (s *SinglyLinkedList) Remove(index int) (int, error) {
+	if index < 0 || index > s.Size {
+		return 0, errors.New("invalid index")
+	}
+
+	if index == 0 {
+		s.RemoveFirst()
+		return 0, nil
+	}
+	if index == s.Size-1 {
+		s.RemoveLast()
+		return 0, nil
+	}
+
+	var count int
+
+	current := s.Head
+	for ; current != nil; current = current.Next {
+		count++
+		if count == index {
+			break
+		}
+	}
+
+	val := current.Next.Data
+
+	current.Next = current.Next.Next
+	s.Size--
+
+	return val, nil
 }
 
 func (s *SinglyLinkedList) String() string {

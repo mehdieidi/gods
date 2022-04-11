@@ -36,12 +36,11 @@ func main() {
 	fmt.Println(s.Size)
 	fmt.Println(s.IsEmpty())
 
-	s.RemoveLast()
-	s.RemoveLast()
-	s.RemoveLast()
-	s.RemoveLast()
-	s.RemoveLast()
-	s.RemoveLast()
+	s.Add(99, 1)
+
+	fmt.Println(s)
+
+	s.Remove(0)
 
 	fmt.Println(s)
 
@@ -49,4 +48,18 @@ func main() {
 	fmt.Println(s.Tail.Data)
 	fmt.Println(s.Size)
 	fmt.Println(s.IsEmpty())
+
+	// s.RemoveLast()
+	// s.RemoveLast()
+	// s.RemoveLast()
+	// s.RemoveLast()
+	// s.RemoveLast()
+	// s.RemoveLast()
+
+	// fmt.Println(s)
+
+	// fmt.Println(s.Head.Data)
+	// fmt.Println(s.Tail.Data)
+	// fmt.Println(s.Size)
+	// fmt.Println(s.IsEmpty())
 }
