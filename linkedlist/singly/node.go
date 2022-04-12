@@ -1,6 +1,6 @@
 package singly
 
-type Node struct {
-	Data int
+type Node[T any] struct {
+	Data T
 	Next *Node
 }
