@@ -1,4 +1,4 @@
-package singlylinkedlist
+package singly
 
 type Node struct {
 	Data int

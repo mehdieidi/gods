@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	singlylinkedlist "github.com/MehdiEidi/gods/linkedlist/singly"
+	"github.com/MehdiEidi/gods/linkedlist/singly"
 )
 
 func main() {
-	s := singlylinkedlist.New()
+	s := singly.New()
 
 	fmt.Println(s.Head)
 	fmt.Println(s.Tail)

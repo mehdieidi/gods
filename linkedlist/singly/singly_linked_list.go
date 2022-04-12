@@ -1,4 +1,4 @@
-package singlylinkedlist
+package singly
 
 import (
 	"errors"
