@@ -1,2 +1,2 @@
 # gods
-Library of data structures.
+Library of generic data structures.
