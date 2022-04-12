@@ -2,23 +2,23 @@ package singly
 
 import (
 	"errors"
-	"strconv"
+	"fmt"
 )
 
-type SinglyLinkedList struct {
-	Head *Node
-	Tail *Node
+type SinglyLinkedList[T any] struct {
+	Head *Node[T]
+	Tail *Node[T]
 	Size int
 }
 
-func New() *SinglyLinkedList {
-	return &SinglyLinkedList{}
+func New[T any]() *SinglyLinkedList[T] {
+	return &SinglyLinkedList[T]{}
 }
 
-func (s *SinglyLinkedList) IsEmpty() bool { return s.Size == 0 }
+func (s *SinglyLinkedList[T]) IsEmpty() bool { return s.Size == 0 }
 
-func (s *SinglyLinkedList) AddFirst(data int) {
-	s.Head = &Node{Data: data, Next: s.Head}
+func (s *SinglyLinkedList[T]) AddFirst(data T) {
+	s.Head = &Node[T]{Data: data, Next: s.Head}
 
 	if s.Size == 0 {
 		s.Tail = s.Head
@@ -27,8 +27,8 @@ func (s *SinglyLinkedList) AddFirst(data int) {
 	s.Size++
 }
 
-func (s *SinglyLinkedList) AddLast(data int) {
-	newNode := Node{Data: data}
+func (s *SinglyLinkedList[T]) AddLast(data T) {
+	newNode := Node[T]{Data: data}
 
 	if s.IsEmpty() {
 		s.Head = &newNode
@@ -41,7 +41,7 @@ func (s *SinglyLinkedList) AddLast(data int) {
 	s.Size++
 }
 
-func (s *SinglyLinkedList) Add(data int, index int) error {
+func (s *SinglyLinkedList[T]) Add(data T, index int) error {
 	if index < 0 || index > s.Size {
 		return errors.New("invalid index")
 	}
@@ -65,7 +65,7 @@ func (s *SinglyLinkedList) Add(data int, index int) error {
 		}
 	}
 
-	newNode := Node{Data: data, Next: current.Next}
+	newNode := Node[T]{Data: data, Next: current.Next}
 	current.Next = &newNode
 
 	s.Size++
@@ -73,7 +73,7 @@ func (s *SinglyLinkedList) Add(data int, index int) error {
 	return nil
 }
 
-func (s *SinglyLinkedList) RemoveFirst() {
+func (s *SinglyLinkedList[T]) RemoveFirst() {
 	s.Head = s.Head.Next
 	s.Size--
 
@@ -82,7 +82,7 @@ func (s *SinglyLinkedList) RemoveFirst() {
 	}
 }
 
-func (s *SinglyLinkedList) RemoveLast() {
+func (s *SinglyLinkedList[T]) RemoveLast() {
 	if s.Size == 1 {
 		s.Tail = nil
 		s.Head = nil
@@ -106,7 +106,7 @@ func (s *SinglyLinkedList) RemoveLast() {
 	}
 }
 
-func (s *SinglyLinkedList) Remove(index int) (int, error) {
+func (s *SinglyLinkedList[T]) Remove(index int) (int, error) {
 	if index < 0 || index > s.Size {
 		return 0, errors.New("invalid index")
 	}
@@ -138,13 +138,13 @@ func (s *SinglyLinkedList) Remove(index int) (int, error) {
 	return val, nil
 }
 
-func (s *SinglyLinkedList) String() string {
+func (s *SinglyLinkedList[T]) String() string {
 	str := "[ "
 
 	current := s.Head
 
 	for ; current != nil; current = current.Next {
-		str += strconv.Itoa(current.Data) + " "
+		str += fmt.Sprint(current.Data) + " "
 	}
 
 	str += "]"
