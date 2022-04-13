@@ -77,23 +77,39 @@ func (s *SinglyLinkedList[T]) Add(data T, index int) error {
 	return nil
 }
 
-func (s *SinglyLinkedList[T]) RemoveFirst() {
+func (s *SinglyLinkedList[T]) RemoveFirst() (val T, ok bool) {
+	if s.IsEmpty() {
+		return
+	}
+
+	val = s.Head.Data
+
 	s.Head = s.Head.Next
 	s.Size--
 
 	if s.IsEmpty() {
 		s.Tail = nil
 	}
+
+	return val, true
 }
 
-func (s *SinglyLinkedList[T]) RemoveLast() {
+func (s *SinglyLinkedList[T]) RemoveLast() (val T, ok bool) {
+	if s.IsEmpty() {
+		return
+	}
+
 	if s.Size == 1 {
+		val = s.Tail.Data
+
 		s.Tail = nil
 		s.Head = nil
 		s.Size--
 
-		return
+		return val, true
 	}
+
+	val = s.Tail.Data
 
 	current := s.Head
 
@@ -108,23 +124,23 @@ func (s *SinglyLinkedList[T]) RemoveLast() {
 		s.Tail = nil
 		s.Head = nil
 	}
+
+	return val, true
 }
 
-func (s *SinglyLinkedList[T]) Remove(index int) (T, error) {
-	var returnVal T
-
-	if index < 0 || index > s.Size {
-		return returnVal, errors.New("invalid index")
+func (s *SinglyLinkedList[T]) Remove(index int) (val T, ok bool, err error) {
+	if index < 0 || index >= s.Size {
+		return val, false, errors.New("invalid index")
 	}
 
 	if index == 0 {
-		s.RemoveFirst()
-		return returnVal, nil
+		val, ok = s.RemoveFirst()
+		return val, ok, nil
 	}
 
 	if index == s.Size-1 {
-		s.RemoveLast()
-		return returnVal, nil
+		val, ok = s.RemoveLast()
+		return val, ok, nil
 	}
 
 	var count int
@@ -137,19 +153,18 @@ func (s *SinglyLinkedList[T]) Remove(index int) (T, error) {
 		}
 	}
 
-	returnVal = current.Next.Data
+	val = current.Next.Data
 
 	current.Next = current.Next.Next
 	s.Size--
 
-	return returnVal, nil
+	return val, true, nil
 }
 
 func (s *SinglyLinkedList[T]) String() string {
 	str := "[ "
 
 	current := s.Head
-
 	for ; current != nil; current = current.Next {
 		str += fmt.Sprint(current.Data) + " "
 	}
@@ -187,6 +202,8 @@ func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
 	}
 
 	newSingly.Head = &Node[T]{Data: s.Head.Data}
+	newSingly.Size++
+
 	newSinglyTail := newSingly.Head
 
 	walk := s.Head.Next
@@ -195,8 +212,9 @@ func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
 		n := &Node[T]{Data: walk.Data}
 
 		newSinglyTail.Next = n
-		newSinglyTail = n
+		newSingly.Size++
 
+		newSinglyTail = n
 		walk = walk.Next
 	}
 
