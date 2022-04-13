@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// TODO: reverse, find, remove by value
+
 type SinglyLinkedList[T comparable] struct {
 	Head *Node[T]
 	Tail *Node[T]
@@ -15,7 +17,9 @@ func New[T comparable]() *SinglyLinkedList[T] {
 	return &SinglyLinkedList[T]{}
 }
 
-func (s *SinglyLinkedList[T]) IsEmpty() bool { return s.Size == 0 }
+func (s *SinglyLinkedList[T]) IsEmpty() bool {
+	return s.Size == 0
+}
 
 func (s *SinglyLinkedList[T]) AddFirst(data T) {
 	s.Head = &Node[T]{Data: data, Next: s.Head}
