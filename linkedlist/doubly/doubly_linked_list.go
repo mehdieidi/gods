@@ -1,43 +1,43 @@
 package doubly
 
-import "strconv"
+import "fmt"
 
-type DoublyLinkedList struct {
-	Header  *Node
-	Trailer *Node
+type DoublyLinkedList[T comparable] struct {
+	Header  *Node[T]
+	Trailer *Node[T]
 	Size    int
 }
 
-func New() *DoublyLinkedList {
-	var d DoublyLinkedList
+func New[T comparable]() *DoublyLinkedList[T] {
+	var d DoublyLinkedList[T]
 
-	d.Header = &Node{}
-	d.Trailer = &Node{Prev: d.Header}
+	d.Header = &Node[T]{}
+	d.Trailer = &Node[T]{Prev: d.Header}
 	d.Header.Next = d.Trailer
 
 	return &d
 }
 
-func (d *DoublyLinkedList) IsEmpty() bool { return d.Size == 0 }
+func (d *DoublyLinkedList[T]) IsEmpty() bool { return d.Size == 0 }
 
-func (d *DoublyLinkedList) First() (int, bool) {
+func (d *DoublyLinkedList[T]) First() (data T, ok bool) {
 	if d.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return d.Header.Next.Data, true
 }
 
-func (d *DoublyLinkedList) Last() (int, bool) {
+func (d *DoublyLinkedList[T]) Last() (data T, ok bool) {
 	if d.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return d.Trailer.Prev.Data, true
 }
 
-func (d *DoublyLinkedList) AddBetween(data int, predecessor *Node, successor *Node) {
-	newNode := &Node{Data: data, Next: successor, Prev: predecessor}
+func (d *DoublyLinkedList[T]) AddBetween(data T, predecessor *Node[T], successor *Node[T]) {
+	newNode := &Node[T]{Data: data, Next: successor, Prev: predecessor}
 
 	predecessor.Next = newNode
 	successor.Prev = newNode
@@ -45,15 +45,15 @@ func (d *DoublyLinkedList) AddBetween(data int, predecessor *Node, successor *No
 	d.Size++
 }
 
-func (d *DoublyLinkedList) AddFirst(data int) {
+func (d *DoublyLinkedList[T]) AddFirst(data T) {
 	d.AddBetween(data, d.Header, d.Header.Next)
 }
 
-func (d *DoublyLinkedList) AddLast(data int) {
+func (d *DoublyLinkedList[T]) AddLast(data T) {
 	d.AddBetween(data, d.Trailer.Prev, d.Trailer)
 }
 
-func (d *DoublyLinkedList) Remove(node *Node) int {
+func (d *DoublyLinkedList[T]) Remove(node *Node[T]) T {
 	predecessor := node.Prev
 	successor := node.Next
 
@@ -65,29 +65,29 @@ func (d *DoublyLinkedList) Remove(node *Node) int {
 	return node.Data
 }
 
-func (d *DoublyLinkedList) RemoveFirst() (int, bool) {
+func (d *DoublyLinkedList[T]) RemoveFirst() (data T, ok bool) {
 	if d.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return d.Remove(d.Header.Next), true
 }
 
-func (d *DoublyLinkedList) RemoveLast() (int, bool) {
+func (d *DoublyLinkedList[T]) RemoveLast() (data T, ok bool) {
 	if d.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return d.Remove(d.Trailer.Prev), true
 }
 
-func (d *DoublyLinkedList) String() string {
+func (d *DoublyLinkedList[T]) String() string {
 	str := "[ "
 
 	current := d.Header.Next
 
 	for ; current != d.Trailer; current = current.Next {
-		str += strconv.Itoa(current.Data) + " "
+		str += fmt.Sprint(current.Data) + " "
 	}
 
 	str += "]"
