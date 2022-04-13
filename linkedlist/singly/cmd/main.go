@@ -21,9 +21,13 @@ func main() {
 	s2.AddFirst(4)
 	s2.AddFirst(3)
 	s2.AddFirst(2)
-	s2.AddFirst(13)
+	s2.AddFirst(1)
 
 	fmt.Println(s2)
 
 	fmt.Println(s.Equals(s2))
+
+	s3 := s2.Clone()
+	s3.RemoveLast()
+	fmt.Println(s3)
 }

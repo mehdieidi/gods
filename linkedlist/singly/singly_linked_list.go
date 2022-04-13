@@ -174,3 +174,27 @@ func (s *SinglyLinkedList[T]) Equals(other *SinglyLinkedList[T]) bool {
 
 	return true
 }
+
+func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
+	var newSingly SinglyLinkedList[T]
+
+	if s.Size == 0 {
+		return &newSingly
+	}
+
+	newSingly.Head = &Node[T]{Data: s.Head.Data}
+	newSinglyTail := newSingly.Head
+
+	walk := s.Head.Next
+
+	for walk != nil {
+		n := &Node[T]{Data: walk.Data}
+
+		newSinglyTail.Next = n
+		newSinglyTail = n
+
+		walk = walk.Next
+	}
+
+	return &newSingly
+}
