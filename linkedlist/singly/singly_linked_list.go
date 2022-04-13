@@ -198,3 +198,13 @@ func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
 
 	return &newSingly
 }
+
+func (s *SinglyLinkedList[T]) ToSlice() []T {
+	r := make([]T, s.Size)
+
+	for i, cur := 0, s.Head; cur != nil && i < len(r); i, cur = i+1, cur.Next {
+		r[i] = cur.Data
+	}
+
+	return r
+}

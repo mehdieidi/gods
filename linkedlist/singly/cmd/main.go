@@ -30,4 +30,7 @@ func main() {
 	s3 := s2.Clone()
 	s3.RemoveLast()
 	fmt.Println(s3)
+
+	s4 := singly.New[int]()
+	fmt.Println(s4.ToSlice())
 }
