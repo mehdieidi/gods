@@ -1,7 +1,7 @@
 package doubly
 
-type Node struct {
-	Data int
-	Prev *Node
-	Next *Node
+type Node[T comparable] struct {
+	Data T
+	Prev *Node[T]
+	Next *Node[T]
 }
