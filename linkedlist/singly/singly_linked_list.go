@@ -5,13 +5,13 @@ import (
 	"fmt"
 )
 
-type SinglyLinkedList[T any] struct {
+type SinglyLinkedList[T comparable] struct {
 	Head *Node[T]
 	Tail *Node[T]
 	Size int
 }
 
-func New[T any]() *SinglyLinkedList[T] {
+func New[T comparable]() *SinglyLinkedList[T] {
 	return &SinglyLinkedList[T]{}
 }
 
@@ -153,4 +153,24 @@ func (s *SinglyLinkedList[T]) String() string {
 	str += "]"
 
 	return str
+}
+
+func (s *SinglyLinkedList[T]) Equals(other *SinglyLinkedList[T]) bool {
+	if other == nil {
+		return false
+	}
+
+	current1 := s.Head
+	current2 := other.Head
+
+	for current1 != nil {
+		if !current1.Equals(current2) {
+			return false
+		}
+
+		current1 = current1.Next
+		current2 = current2.Next
+	}
+
+	return true
 }

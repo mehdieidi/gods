@@ -16,38 +16,14 @@ func main() {
 
 	fmt.Println(s)
 
-	fmt.Println(s.Head.Data)
-	fmt.Println(s.Tail.Data)
-	fmt.Println(s.Size)
-	fmt.Println(s.IsEmpty())
+	s2 := singly.New[int]()
 
-	s.AddLast(6)
-	s.AddLast(7)
-
-	fmt.Println(s)
-
-	fmt.Println(s.Head.Data)
-	fmt.Println(s.Tail.Data)
-	fmt.Println(s.Size)
-	fmt.Println(s.IsEmpty())
-
-	s.Add(99, 1)
-
-	fmt.Println(s)
-
-	s.Remove(0)
-
-	fmt.Println(s)
-
-	fmt.Println(s.Head.Data)
-	fmt.Println(s.Tail.Data)
-	fmt.Println(s.Size)
-	fmt.Println(s.IsEmpty())
-
-	s2 := singly.New[string]()
-
-	s2.AddFirst("hello")
-	s2.AddFirst("hi")
+	s2.AddFirst(4)
+	s2.AddFirst(3)
+	s2.AddFirst(2)
+	s2.AddFirst(13)
 
 	fmt.Println(s2)
+
+	fmt.Println(s.Equals(s2))
 }
