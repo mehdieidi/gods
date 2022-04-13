@@ -7,12 +7,7 @@ import (
 )
 
 func main() {
-	s := singly.New()
-
-	fmt.Println(s.Head)
-	fmt.Println(s.Tail)
-	fmt.Println(s.Size)
-	fmt.Println(s.IsEmpty())
+	s := singly.New[int]()
 
 	s.AddFirst(4)
 	s.AddFirst(3)
@@ -49,17 +44,10 @@ func main() {
 	fmt.Println(s.Size)
 	fmt.Println(s.IsEmpty())
 
-	// s.RemoveLast()
-	// s.RemoveLast()
-	// s.RemoveLast()
-	// s.RemoveLast()
-	// s.RemoveLast()
-	// s.RemoveLast()
+	s2 := singly.New[string]()
 
-	// fmt.Println(s)
+	s2.AddFirst("hello")
+	s2.AddFirst("hi")
 
-	// fmt.Println(s.Head.Data)
-	// fmt.Println(s.Tail.Data)
-	// fmt.Println(s.Size)
-	// fmt.Println(s.IsEmpty())
+	fmt.Println(s2)
 }

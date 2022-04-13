@@ -106,18 +106,21 @@ func (s *SinglyLinkedList[T]) RemoveLast() {
 	}
 }
 
-func (s *SinglyLinkedList[T]) Remove(index int) (int, error) {
+func (s *SinglyLinkedList[T]) Remove(index int) (T, error) {
+	var returnVal T
+
 	if index < 0 || index > s.Size {
-		return 0, errors.New("invalid index")
+		return returnVal, errors.New("invalid index")
 	}
 
 	if index == 0 {
 		s.RemoveFirst()
-		return 0, nil
+		return returnVal, nil
 	}
+
 	if index == s.Size-1 {
 		s.RemoveLast()
-		return 0, nil
+		return returnVal, nil
 	}
 
 	var count int
@@ -130,12 +133,12 @@ func (s *SinglyLinkedList[T]) Remove(index int) (int, error) {
 		}
 	}
 
-	val := current.Next.Data
+	returnVal = current.Next.Data
 
 	current.Next = current.Next.Next
 	s.Size--
 
-	return val, nil
+	return returnVal, nil
 }
 
 func (s *SinglyLinkedList[T]) String() string {
