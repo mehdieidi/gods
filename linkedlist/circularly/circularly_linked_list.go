@@ -7,7 +7,9 @@ type CircularlyLinkedList struct {
 	Size int
 }
 
-func New() *CircularlyLinkedList { return &CircularlyLinkedList{} }
+func New() *CircularlyLinkedList {
+	return &CircularlyLinkedList{}
+}
 
 func (c *CircularlyLinkedList) IsEmpty() bool { return c.Size == 0 }
 

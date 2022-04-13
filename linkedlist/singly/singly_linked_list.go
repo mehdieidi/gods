@@ -21,6 +21,22 @@ func (s *SinglyLinkedList[T]) IsEmpty() bool {
 	return s.Size == 0
 }
 
+func (s *SinglyLinkedList[T]) First() (data T, ok bool) {
+	if s.IsEmpty() {
+		return
+	}
+
+	return s.Head.Data, true
+}
+
+func (s *SinglyLinkedList[T]) Last() (data T, ok bool) {
+	if s.IsEmpty() {
+		return
+	}
+
+	return s.Tail.Data, true
+}
+
 func (s *SinglyLinkedList[T]) AddFirst(data T) {
 	s.Head = &Node[T]{Data: data, Next: s.Head}
 
