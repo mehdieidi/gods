@@ -3,6 +3,7 @@ package gods
 import (
     "github.com/MehdiEidi/gods/linkedlist/singly"
     "github.com/MehdiEidi/gods/linkedlist/doubly"
+    "github.com/MehdiEidi/gods/linkedlist/circularly"
     "github.com/MehdiEidi/gods/set"
 )
 
@@ -14,6 +15,10 @@ func (l linked[T]) Singly() *singly.SinglyLinkedList[T] {
 
 func (l linked[T]) Doubly() *doubly.DoublyLinkedList[T] {
     return doubly.New[T]()
+}
+
+func (l linked[T]) Circularly() *circularly.CircularlyLinkedList[T] {
+    return circularly.New[T]()
 }
 
 func Linked[T comparable]() linked[T] {
