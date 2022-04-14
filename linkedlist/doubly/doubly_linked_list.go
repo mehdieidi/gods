@@ -96,7 +96,7 @@ func (d *DoublyLinkedList[T]) String() string {
 }
 
 func (d *DoublyLinkedList[T]) Equals(other *DoublyLinkedList[T]) bool {
-	if other == nil {
+	if other == nil || d.Size != other.Size {
 		return false
 	}
 
@@ -118,7 +118,7 @@ func (d *DoublyLinkedList[T]) Equals(other *DoublyLinkedList[T]) bool {
 func (d *DoublyLinkedList[T]) Clone() *DoublyLinkedList[T] {
 	newDoubly := New[T]()
 
-	if d.Size == 0 {
+	if d.IsEmpty() {
 		return newDoubly
 	}
 

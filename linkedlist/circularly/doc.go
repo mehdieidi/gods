@@ -9,5 +9,7 @@ Supported methods:
 * AddFirst
 * AddLast
 * RemoveFirst
+* RemoveLast
+* Equals
 * String
 */

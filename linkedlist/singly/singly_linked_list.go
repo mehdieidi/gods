@@ -191,7 +191,7 @@ func (s *SinglyLinkedList[T]) String() string {
 }
 
 func (s *SinglyLinkedList[T]) Equals(other *SinglyLinkedList[T]) bool {
-	if other == nil {
+	if other == nil || s.Size != other.Size {
 		return false
 	}
 
