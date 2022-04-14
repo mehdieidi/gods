@@ -22,7 +22,7 @@ s.Add("awesome :D")
 ```
 or directly import the intended data structure and use its factory function:
 ```
-import "github.com/MehdiEidi/set"
+import "github.com/MehdiEidi/gods/set"
 .
 .
 .
