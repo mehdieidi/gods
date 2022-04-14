@@ -1,60 +1,60 @@
 package circularly
 
-import "strconv"
+import "fmt"
 
-type CircularlyLinkedList struct {
-	Tail *Node
+type CircularlyLinkedList[T comparable] struct {
+	Tail *Node[T]
 	Size int
 }
 
-func New() *CircularlyLinkedList {
-	return &CircularlyLinkedList{}
+func New[T comparable]() *CircularlyLinkedList[T] {
+	return &CircularlyLinkedList[T]{}
 }
 
-func (c *CircularlyLinkedList) IsEmpty() bool { return c.Size == 0 }
+func (c *CircularlyLinkedList[T]) IsEmpty() bool { return c.Size == 0 }
 
-func (c *CircularlyLinkedList) First() (int, bool) {
+func (c *CircularlyLinkedList[T]) First() (data T, ok bool) {
 	if c.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return c.Tail.Next.Data, true
 }
 
-func (c *CircularlyLinkedList) Last() (int, bool) {
+func (c *CircularlyLinkedList[T]) Last() (data T, ok bool) {
 	if c.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	return c.Tail.Data, true
 }
 
-func (c *CircularlyLinkedList) Rotate() {
+func (c *CircularlyLinkedList[T]) Rotate() {
 	if c.Tail != nil {
 		c.Tail = c.Tail.Next
 	}
 }
 
-func (c *CircularlyLinkedList) AddFirst(data int) {
+func (c *CircularlyLinkedList[T]) AddFirst(data T) {
 	if c.IsEmpty() {
-		c.Tail = &Node{Data: data}
+		c.Tail = &Node[T]{Data: data}
 		c.Tail.Next = c.Tail
 	} else {
-		newNode := Node{Data: data, Next: c.Tail.Next}
+		newNode := Node[T]{Data: data, Next: c.Tail.Next}
 		c.Tail.Next = &newNode
 	}
 
 	c.Size++
 }
 
-func (c *CircularlyLinkedList) AddLast(data int) {
+func (c *CircularlyLinkedList[T]) AddLast(data T) {
 	c.AddFirst(data)
 	c.Tail = c.Tail.Next
 }
 
-func (c *CircularlyLinkedList) RemoveFirst() (int, bool) {
+func (c *CircularlyLinkedList[T]) RemoveFirst() (data T, ok bool) {
 	if c.IsEmpty() {
-		return 0, false
+		return
 	}
 
 	head := c.Tail.Next
@@ -72,7 +72,7 @@ func (c *CircularlyLinkedList) RemoveFirst() (int, bool) {
 	return val, true
 }
 
-func (c *CircularlyLinkedList) String() string {
+func (c *CircularlyLinkedList[T]) String() string {
 	if c.IsEmpty() {
 		return "[ ]"
 	}
@@ -82,10 +82,10 @@ func (c *CircularlyLinkedList) String() string {
 	current := c.Tail.Next
 
 	for ; current != c.Tail; current = current.Next {
-		str += strconv.Itoa(current.Data) + " "
+		str += fmt.Sprint(current.Data) + " "
 	}
 
-	str += strconv.Itoa(c.Tail.Data) + " ]"
+	str += fmt.Sprint(c.Tail.Data) + " ]"
 
 	return str
 }
