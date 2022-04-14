@@ -1,6 +1,6 @@
 package circularly
 
-type Node struct {
-	Data int
-	Next *Node
+type Node[T comparable] struct {
+	Data T
+	Next *Node[T]
 }
