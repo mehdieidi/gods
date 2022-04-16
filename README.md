@@ -41,5 +41,8 @@ s.Add("again awesome :D")
 * [stack](./stack/)
   * [stack with linked list](./stack/)
   * [stack with slice](./stack/)
+* [queue](./queue/)
+  * [queue with linked list](./queue/)
+  * [queue with slice](./queue/)
   
   --- more coming soon :D ---
