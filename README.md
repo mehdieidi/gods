@@ -33,10 +33,13 @@ s.Add("again awesome :D")
 
 ## Supported Data Structures
 * [bitset](./bitset/)
-* Linked List
+* [linked list](./linkedlist/)
   * [singly linked list](./linkedlist/doubly/)
   * [doubly linked list](./linkedlist/doubly/)
   * [circularly linked list](./linkedlist/circularly/)
 * [set](./set/)
+* [stack](./stack/)
+  * [stack with linked list](./stack/)
+  * [stack with slice](./stack/)
   
   --- more coming soon :D ---
