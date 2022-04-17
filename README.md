@@ -44,5 +44,7 @@ s.Add("again awesome :D")
 * [queue](./queue/)
   * [queue with linked list](./queue/)
   * [queue with slice](./queue/)
+  * [circular queue](./queue/)
+* [deque](./deque/)
   
   --- more coming soon :D ---
