@@ -4,6 +4,10 @@ import "errors"
 
 type Bitset8 uint8
 
+func New() (b *Bitset8) {
+	return
+}
+
 func (b *Bitset8) Add(n uint8) error {
 	if n > 7 {
 		return errors.New("the given number doesn't fit 8-bit set. It must be in range of 0 to 7")
