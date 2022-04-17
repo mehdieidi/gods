@@ -6,4 +6,5 @@ type Queue[T any] interface {
 	First() (T, bool)
 	Size() int
 	IsEmpty() bool
+	String() string
 }
