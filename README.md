@@ -16,6 +16,7 @@ Library of generic data structures for Go.
   * [queue using slice](./queue/)
   * [circular queue](./queue/)
 * [deque](./deque/)
+* [positional list](./positionallist/)
   
   --- more coming soon :D ---
 
