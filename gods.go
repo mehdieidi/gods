@@ -9,6 +9,8 @@ import (
 	"github.com/MehdiEidi/gods/queue"
 	"github.com/MehdiEidi/gods/set"
 	"github.com/MehdiEidi/gods/stack"
+	"github.com/MehdiEidi/gods/tree/binarytree"
+	"github.com/MehdiEidi/gods/tree/generaltree"
 )
 
 func NewSinglyLinkedList[T comparable]() *singly.SinglyLinkedList[T] {
@@ -53,4 +55,12 @@ func NewSliceStack[T any]() stack.Stack[T] {
 
 func NewBitset8() *bitset.Bitset8 {
 	return bitset.New()
+}
+
+func NewBinaryTree[T any]() binarytree.BinaryTree[T] {
+	return binarytree.New[T]()
+}
+
+func NewGeneralTree[T any]() generaltree.GeneralTree[T] {
+	return generaltree.New[T]()
 }

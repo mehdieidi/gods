@@ -18,8 +18,8 @@ Library of generic data structures for Go.
 * [deque](./deque/)
 * [positional list](./positionallist/)
 * [tree](./tree/)
-  * [binary tree](./tree/binary/)
-  * [general tree](./tree/general/)
+  * [binary tree](./tree/binarytree/)
+  * [general tree](./tree/generaltree/)
   
   --- more coming soon :D ---
 
