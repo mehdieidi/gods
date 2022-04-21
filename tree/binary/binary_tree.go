@@ -339,6 +339,29 @@ func (bt *binaryTree[T]) DFS() (list []*Node[T]) {
 	return
 }
 
+func (bt *binaryTree[T]) EulerTour() (list []*Node[T]) {
+	if !bt.IsEmpty() {
+		bt.eulerTourUtil(bt.root, &list)
+	}
+	return
+}
+
+func (bt *binaryTree[T]) eulerTourUtil(n *Node[T], list *[]*Node[T]) {
+	*list = append(*list, n)
+
+	if n.Left != nil {
+		bt.eulerTourUtil(n.Left, list)
+	}
+
+	*list = append(*list, n)
+
+	if n.Right != nil {
+		bt.eulerTourUtil(n.Right, list)
+	}
+
+	*list = append(*list, n)
+}
+
 func (bt *binaryTree[T]) Parenthesize(n *Node[T]) {
 	fmt.Print(n.Data)
 

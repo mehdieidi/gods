@@ -29,5 +29,6 @@ type BinaryTree[T comparable] interface {
 	InOrder() []*Node[T]
 	BFS() []*Node[T]
 	DFS() []*Node[T]
+	EulerTour() []*Node[T]
 	Parenthesize(*Node[T])
 }
