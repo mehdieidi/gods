@@ -27,5 +27,7 @@ type BinaryTree[T comparable] interface {
 	PreOrder() []*Node[T]
 	PostOrder() []*Node[T]
 	InOrder() []*Node[T]
-	BreadthFirst() []*Node[T]
+	BFS() []*Node[T]
+	DFS() []*Node[T]
+	Parenthesize(*Node[T])
 }

@@ -6,6 +6,7 @@ import (
 	"math"
 
 	"github.com/MehdiEidi/gods/queue"
+	"github.com/MehdiEidi/gods/stack"
 )
 
 var (
@@ -296,7 +297,7 @@ func (bt *binaryTree[T]) inOrderUtil(n *Node[T], list *[]*Node[T]) {
 	}
 }
 
-func (bt *binaryTree[T]) BreadthFirst() (list []*Node[T]) {
+func (bt *binaryTree[T]) BFS() (list []*Node[T]) {
 	if bt.IsEmpty() {
 		return
 	}
@@ -315,4 +316,49 @@ func (bt *binaryTree[T]) BreadthFirst() (list []*Node[T]) {
 	}
 
 	return
+}
+
+func (bt *binaryTree[T]) DFS() (list []*Node[T]) {
+	if bt.IsEmpty() {
+		return
+	}
+
+	stack := stack.NewLinkedStack[*Node[T]]()
+	stack.Push(bt.root)
+
+	for !stack.IsEmpty() {
+		n, _ := stack.Pop()
+
+		list = append(list, n)
+
+		for _, c := range bt.Children(n) {
+			stack.Push(c)
+		}
+	}
+
+	return
+}
+
+func (bt *binaryTree[T]) Parenthesize(n *Node[T]) {
+	fmt.Print(n.Data)
+
+	if bt.IsExternal(n) {
+		return
+	}
+
+	firstTime := true
+
+	for _, c := range bt.Children(n) {
+		if firstTime {
+			fmt.Print(" (")
+		} else {
+			fmt.Print(", ")
+		}
+
+		firstTime = false
+
+		bt.Parenthesize(c)
+	}
+
+	fmt.Print(")")
 }
