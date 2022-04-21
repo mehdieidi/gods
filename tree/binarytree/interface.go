@@ -1,17 +1,17 @@
 package binarytree
 
-type BinaryTree[T comparable] interface {
+type BinaryTree[T any] interface {
 	Root() *Node[T]
 	SetRoot(*Node[T])
+	IsRoot(*Node[T]) bool
 	Size() int
 	SetSize(int)
+	IsEmpty() bool
 	Parent(*Node[T]) *Node[T]
 	Children(*Node[T]) []*Node[T]
 	ChildrenNum(*Node[T]) int
 	IsInternal(*Node[T]) bool
 	IsExternal(*Node[T]) bool
-	IsRoot(*Node[T]) bool
-	IsEmpty() bool
 	Height(*Node[T]) int
 	Depth(*Node[T]) int
 	LeftChild(*Node[T]) *Node[T]
@@ -30,5 +30,4 @@ type BinaryTree[T comparable] interface {
 	BFS() []*Node[T]
 	DFS() []*Node[T]
 	EulerTour() []*Node[T]
-	Parenthesize(*Node[T])
 }

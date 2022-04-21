@@ -1,7 +1,6 @@
 package binarytree
 
 import (
-	"errors"
 	"fmt"
 	"math"
 
@@ -9,20 +8,12 @@ import (
 	"github.com/MehdiEidi/gods/stack"
 )
 
-var (
-	TreeNotEmptyErr     = errors.New("tree is not empty")
-	LeftChildExistsErr  = errors.New("left child already exists")
-	RightChildExistsErr = errors.New("right child already exists")
-	MustBeLeafErr       = errors.New("node must be a leaf")
-	HasTwoChildrenErr   = errors.New("node has two children")
-)
-
-type binaryTree[T comparable] struct {
+type binaryTree[T any] struct {
 	root *Node[T]
 	size int
 }
 
-func New[T comparable]() BinaryTree[T] {
+func New[T any]() BinaryTree[T] {
 	return &binaryTree[T]{}
 }
 
@@ -79,11 +70,11 @@ func (bt *binaryTree[T]) SetSize(s int) {
 }
 
 func (bt *binaryTree[T]) IsRoot(n *Node[T]) bool {
-	return n == bt.Root()
+	return n == bt.root
 }
 
 func (bt *binaryTree[T]) IsEmpty() bool {
-	return bt.Size() == 0
+	return bt.size == 0
 }
 
 func (bt *binaryTree[T]) Height(n *Node[T]) (h int) {
@@ -110,18 +101,16 @@ func (bt *binaryTree[T]) RightChild(n *Node[T]) *Node[T] {
 }
 
 func (bt *binaryTree[T]) Sibling(n *Node[T]) *Node[T] {
-	parent := n.Parent
-
 	// Its root.
-	if parent == nil {
+	if n.Parent == nil {
 		return nil
 	}
 
-	if n == parent.Left {
-		return parent.Right
+	if n == n.Parent.Left {
+		return n.Parent.Right
 	}
 
-	return parent.Left
+	return n.Parent.Left
 }
 
 func (bt *binaryTree[T]) AddRoot(data T) (*Node[T], error) {
@@ -159,10 +148,10 @@ func (bt *binaryTree[T]) AddRight(n *Node[T], data T) (*Node[T], error) {
 	return c, nil
 }
 
-func (bt *binaryTree[T]) Set(n *Node[T], data T) (val T) {
-	val = n.Element()
+func (bt *binaryTree[T]) Set(n *Node[T], data T) T {
+	val := n.Data
 	n.Data = data
-	return
+	return val
 }
 
 func (bt *binaryTree[T]) Attach(n *Node[T], t1 BinaryTree[T], t2 BinaryTree[T]) error {
@@ -177,7 +166,6 @@ func (bt *binaryTree[T]) Attach(n *Node[T], t1 BinaryTree[T], t2 BinaryTree[T]) 
 		n.Left = t1.Root()
 
 		t1.SetRoot(nil)
-		t1.SetSize(0)
 	}
 
 	if !t2.IsEmpty() {
@@ -185,7 +173,6 @@ func (bt *binaryTree[T]) Attach(n *Node[T], t1 BinaryTree[T], t2 BinaryTree[T]) 
 		n.Right = t2.Root()
 
 		t2.SetRoot(nil)
-		t2.SetSize(0)
 	}
 
 	return nil
@@ -211,12 +198,10 @@ func (bt *binaryTree[T]) Remove(n *Node[T]) (val T, err error) {
 	if n == bt.root {
 		bt.root = child
 	} else {
-		parent := n.Parent
-
-		if n == parent.Left {
-			parent.Left = child
+		if n == n.Parent.Left {
+			n.Parent.Left = child
 		} else {
-			parent.Right = child
+			n.Parent.Right = child
 		}
 	}
 
@@ -231,7 +216,7 @@ func (bt *binaryTree[T]) Remove(n *Node[T]) (val T, err error) {
 	n.Right = nil
 	n.Parent = nil
 
-	return val, nil
+	return
 }
 
 func (bt *binaryTree[T]) String() string {
@@ -360,28 +345,4 @@ func (bt *binaryTree[T]) eulerTourUtil(n *Node[T], list *[]*Node[T]) {
 	}
 
 	*list = append(*list, n)
-}
-
-func (bt *binaryTree[T]) Parenthesize(n *Node[T]) {
-	fmt.Print(n.Data)
-
-	if bt.IsExternal(n) {
-		return
-	}
-
-	firstTime := true
-
-	for _, c := range bt.Children(n) {
-		if firstTime {
-			fmt.Print(" (")
-		} else {
-			fmt.Print(", ")
-		}
-
-		firstTime = false
-
-		bt.Parenthesize(c)
-	}
-
-	fmt.Print(")")
 }
