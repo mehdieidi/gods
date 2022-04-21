@@ -1,11 +1,7 @@
-package tree
+package generaltree
 
-type Node[T comparable] struct {
+type Node[T any] struct {
 	Data     T
 	Parent   *Node[T]
 	Children []*Node[T]
-}
-
-func (n *Node[T]) Element() T {
-	return n.Data
 }

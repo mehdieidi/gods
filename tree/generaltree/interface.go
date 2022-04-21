@@ -1,17 +1,17 @@
-package tree
+package generaltree
 
-type Tree[T comparable] interface {
+type GeneralTree[T any] interface {
 	Root() *Node[T]
 	SetRoot(*Node[T])
+	IsRoot(*Node[T]) bool
 	Size() int
 	SetSize(int)
+	IsEmpty() bool
 	Parent(*Node[T]) *Node[T]
 	Children(*Node[T]) []*Node[T]
 	ChildrenNum(*Node[T]) int
 	IsInternal(*Node[T]) bool
 	IsExternal(*Node[T]) bool
-	IsRoot(*Node[T]) bool
-	IsEmpty() bool
 	Height(*Node[T]) int
 	Depth(*Node[T]) int
 	AddRoot(T) (*Node[T], error)
@@ -23,5 +23,4 @@ type Tree[T comparable] interface {
 	BFS() []*Node[T]
 	DFS() []*Node[T]
 	EulerTour() []*Node[T]
-	Parenthesize(*Node[T])
 }

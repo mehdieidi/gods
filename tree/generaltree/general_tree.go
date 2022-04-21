@@ -1,7 +1,6 @@
-package tree
+package generaltree
 
 import (
-	"errors"
 	"fmt"
 	"math"
 
@@ -9,16 +8,12 @@ import (
 	"github.com/MehdiEidi/gods/stack"
 )
 
-var (
-	TreeNotEmptyErr = errors.New("tree is not empty")
-)
-
-type generalTree[T comparable] struct {
+type generalTree[T any] struct {
 	root *Node[T]
 	size int
 }
 
-func New[T comparable]() Tree[T] {
+func New[T any]() GeneralTree[T] {
 	return &generalTree[T]{}
 }
 
@@ -51,7 +46,7 @@ func (gt *generalTree[T]) IsExternal(n *Node[T]) bool {
 }
 
 func (gt *generalTree[T]) IsRoot(n *Node[T]) bool {
-	return gt.Root() == n
+	return gt.root == n
 }
 
 func (gt *generalTree[T]) Size() int {
@@ -101,10 +96,10 @@ func (gt *generalTree[T]) AddChildTo(parent *Node[T], data T) *Node[T] {
 	return child
 }
 
-func (gt *generalTree[T]) Set(n *Node[T], data T) (val T) {
-	val = n.Data
+func (gt *generalTree[T]) Set(n *Node[T], data T) T {
+	val := n.Data
 	n.Data = data
-	return
+	return val
 }
 
 func (gt *generalTree[T]) PreOrder() (list []*Node[T]) {
@@ -208,28 +203,4 @@ func (gt *generalTree[T]) eulerTourUtil(n *Node[T], list *[]*Node[T]) {
 	}
 
 	*list = append(*list, n)
-}
-
-func (gt *generalTree[T]) Parenthesize(n *Node[T]) {
-	fmt.Print(n.Data)
-
-	if gt.IsExternal(n) {
-		return
-	}
-
-	firstTime := true
-
-	for _, c := range gt.Children(n) {
-		if firstTime {
-			fmt.Print(" (")
-		} else {
-			fmt.Print(", ")
-		}
-
-		firstTime = false
-
-		gt.Parenthesize(c)
-	}
-
-	fmt.Print(")")
 }
