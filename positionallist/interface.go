@@ -17,4 +17,5 @@ type PositionalList[T comparable] interface {
 	AddAfter(Position[T], T) Position[T]
 	Set(Position[T], T) T
 	Remove(Position[T]) T
+	String() string
 }
