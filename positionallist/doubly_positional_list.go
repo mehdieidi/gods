@@ -50,7 +50,7 @@ func (d *doublyPositionalList[T]) Last() Position[T] {
 
 func (d *doublyPositionalList[T]) Before(p Position[T]) Position[T] {
 	n := d.node(p)
-	return d.position(n.prev)
+	return n.prev
 }
 
 func (d *doublyPositionalList[T]) After(p Position[T]) Position[T] {

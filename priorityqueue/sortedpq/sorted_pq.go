@@ -3,28 +3,27 @@ package sortedpq
 import (
 	"github.com/MehdiEidi/gods/positionallist"
 	"github.com/MehdiEidi/gods/priorityqueue"
-	"golang.org/x/exp/constraints"
 )
 
-type sortedPQ[K constraints.Ordered, V any] struct {
+type sortedPQ[K any, V any] struct {
 	list       positionallist.PositionalList[*priorityqueue.Entry[K, V]]
 	comparator priorityqueue.Comparator[K]
 }
 
-func New[K constraints.Ordered, V any](comparator priorityqueue.Comparator[K]) priorityqueue.PriorityQueue[K, V] {
+func New[K any, V any](comparator priorityqueue.Comparator[K]) priorityqueue.PriorityQueue[K, V] {
 	return &sortedPQ[K, V]{list: positionallist.NewDoublyPositionList[*priorityqueue.Entry[K, V]](), comparator: comparator}
 }
 
-func (s *sortedPQ[K, V]) Insert(key K, value V) *priorityqueue.Entry[K, V] {
+func (s *sortedPQ[K, V]) Enqueue(key K, value V) *priorityqueue.Entry[K, V] {
 	newEntry := &priorityqueue.Entry[K, V]{Key: key, Value: value}
 
 	walk := s.list.Last()
 
-	for walk.Element() != nil && walk != s.list.First() && s.comparator.Compare(newEntry.Key, walk.Element().Key) < 0 {
+	for walk.Element() != nil && s.comparator.Compare(newEntry.Key, walk.Element().Key) < 0 {
 		walk = s.list.Before(walk)
 	}
 
-	if walk == nil {
+	if walk.Element() == nil {
 		s.list.AddFirst(newEntry)
 	} else {
 		s.list.AddAfter(walk, newEntry)
@@ -40,7 +39,7 @@ func (s *sortedPQ[K, V]) Min() *priorityqueue.Entry[K, V] {
 	return s.list.First().Element()
 }
 
-func (s *sortedPQ[K, V]) RemoveMin() *priorityqueue.Entry[K, V] {
+func (s *sortedPQ[K, V]) Dequeue() *priorityqueue.Entry[K, V] {
 	if s.list.IsEmpty() {
 		return nil
 	}
