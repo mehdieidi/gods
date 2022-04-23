@@ -21,8 +21,8 @@ Library of generic data structures for Go.
   * [binary tree](./tree/binarytree/)
   * [general tree](./tree/generaltree/)
 * [priority queue](./priorityqueue/)
-  * [sorted priority queue](./priorityqueue/sortedpq/)
-  * [unsorted priority queue](./priorityqueue/unsortedpq/)
+  * [sorted list priority queue](./priorityqueue/sortedpq/)
+  * [unsorted list priority queue](./priorityqueue/unsortedpq/)
   * [heap priority queue](./priorityqueue/heappq/)
   
   --- more coming soon :D ---

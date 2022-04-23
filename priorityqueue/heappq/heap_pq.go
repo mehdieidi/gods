@@ -15,6 +15,23 @@ func New[K any, V any](comparator priorityqueue.Comparator[K]) priorityqueue.Pri
 	return &heapPQ[K, V]{heap: []*priorityqueue.Entry[K, V]{}, comparator: comparator}
 }
 
+func NewWithValues[K any, V any](keys []K, values []V, comparator priorityqueue.Comparator[K]) (priorityqueue.PriorityQueue[K, V], error) {
+	if len(keys) != len(values) {
+		return nil, KeysValuesNotSameLenErr
+	}
+
+	// Construct a new priority queue and type assert it to heapPQ.
+	h := New[K, V](comparator).(*heapPQ[K, V])
+
+	for i := 0; i < len(keys); i++ {
+		h.heap = append(h.heap, &priorityqueue.Entry[K, V]{Key: keys[i], Value: values[i]})
+	}
+
+	h.heapify()
+
+	return h, nil
+}
+
 func (h *heapPQ[K, V]) Enqueue(key K, value V) *priorityqueue.Entry[K, V] {
 	newEntry := &priorityqueue.Entry[K, V]{Key: key, Value: value}
 
@@ -124,4 +141,10 @@ func (h *heapPQ[K, V]) String() string {
 	str += "]"
 
 	return str
+}
+
+func (h *heapPQ[K, V]) heapify() {
+	for i := h.parent(h.Size() - 1); i >= 0; i-- {
+		h.downHeapBubble(i)
+	}
 }
