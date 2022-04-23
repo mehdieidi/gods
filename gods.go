@@ -57,10 +57,10 @@ func NewBitset8() *bitset.Bitset8 {
 	return bitset.New()
 }
 
-func NewBinaryTree[T any]() binarytree.BinaryTree[T] {
+func NewBinaryTree[T any]() *binarytree.BinaryTree[T] {
 	return binarytree.New[T]()
 }
 
-func NewGeneralTree[T any]() generaltree.GeneralTree[T] {
+func NewGeneralTree[T any]() *generaltree.GeneralTree[T] {
 	return generaltree.New[T]()
 }

@@ -8,60 +8,53 @@ import (
 	"github.com/MehdiEidi/gods/stack"
 )
 
-type generalTree[T any] struct {
-	root *Node[T]
-	size int
+type GeneralTree[T any] struct {
+	Root *Node[T]
+	Size int
 }
 
-func New[T any]() GeneralTree[T] {
-	return &generalTree[T]{}
+// New constructs and returns an empty general tree.
+func New[T any]() *GeneralTree[T] {
+	return &GeneralTree[T]{}
 }
 
-func (gt *generalTree[T]) Root() *Node[T] {
-	return gt.root
-}
-
-func (gt *generalTree[T]) SetRoot(n *Node[T]) {
-	gt.root = n
-}
-
-func (gt *generalTree[T]) Parent(n *Node[T]) *Node[T] {
+// Parent returns the parent of the given node.
+func (gt *GeneralTree[T]) Parent(n *Node[T]) *Node[T] {
 	return n.Parent
 }
 
-func (gt *generalTree[T]) Children(n *Node[T]) []*Node[T] {
+// Children returns a slice of the children of the given node.
+func (gt *GeneralTree[T]) Children(n *Node[T]) []*Node[T] {
 	return n.Children
 }
 
-func (gt *generalTree[T]) ChildrenNum(n *Node[T]) int {
+// ChildrenCount returns the count of the children of the given node.
+func (gt *GeneralTree[T]) ChildrenCount(n *Node[T]) int {
 	return len(n.Children)
 }
 
-func (gt *generalTree[T]) IsInternal(n *Node[T]) bool {
-	return gt.ChildrenNum(n) != 0
+// IsInternal returns true if the given node has one or more children (its an internal node).
+func (gt *GeneralTree[T]) IsInternal(n *Node[T]) bool {
+	return gt.ChildrenCount(n) != 0
 }
 
-func (gt *generalTree[T]) IsExternal(n *Node[T]) bool {
-	return gt.ChildrenNum(n) == 0
+// IsExternal returns true if the given node doesn't have any children (its an external node).
+func (gt *GeneralTree[T]) IsExternal(n *Node[T]) bool {
+	return gt.ChildrenCount(n) == 0
 }
 
-func (gt *generalTree[T]) IsRoot(n *Node[T]) bool {
-	return gt.root == n
+// IsRoot checks if the given node is the root of the tree.
+func (gt *GeneralTree[T]) IsRoot(n *Node[T]) bool {
+	return gt.Root == n
 }
 
-func (gt *generalTree[T]) Size() int {
-	return gt.size
+// IsEmpty returns true if the tree is empty (doesn't have any node).
+func (gt *GeneralTree[T]) IsEmpty() bool {
+	return gt.Size == 0
 }
 
-func (gt *generalTree[T]) SetSize(s int) {
-	gt.size = s
-}
-
-func (gt *generalTree[T]) IsEmpty() bool {
-	return gt.size == 0
-}
-
-func (gt *generalTree[T]) Depth(n *Node[T]) int {
+// Depth recursively finds the depth of the given node. Depth is based on the root of the tree (root has depth 0).
+func (gt *GeneralTree[T]) Depth(n *Node[T]) int {
 	if gt.IsRoot(n) {
 		return 0
 	}
@@ -69,47 +62,55 @@ func (gt *generalTree[T]) Depth(n *Node[T]) int {
 	return 1 + gt.Depth(n.Parent)
 }
 
-func (gt *generalTree[T]) Height(n *Node[T]) (h int) {
+// Height recursively finds the height of the given node. Height is based on the bottom of the tree (a leaf has height 0).
+func (gt *GeneralTree[T]) Height(n *Node[T]) (h int) {
 	for _, c := range n.Children {
-		h = int(math.Max(float64(h), 1.0+float64(gt.Height(c))))
+		h = int(math.Max(float64(h), float64(1+gt.Height(c))))
 	}
 	return
 }
 
-func (gt *generalTree[T]) AddRoot(data T) (*Node[T], error) {
+// AddRoot constructs a node out of the given data and makes it the root of the tree. It returns
+// TreeNotEmptyErr if tree wasn't empty before.
+func (gt *GeneralTree[T]) AddRoot(data T) (*Node[T], error) {
 	if !gt.IsEmpty() {
 		return nil, TreeNotEmptyErr
 	}
 
-	gt.root = &Node[T]{Data: data}
-	gt.size++
+	gt.Root = &Node[T]{Data: data}
+	gt.Size++
 
-	return gt.root, nil
+	return gt.Root, nil
 }
 
-func (gt *generalTree[T]) AddChildTo(parent *Node[T], data T) *Node[T] {
+// AddChildTo constructs a node out of the given data and adds it to the children of the given node.
+// It returns the newly constructed node.
+func (gt *GeneralTree[T]) AddChildTo(parent *Node[T], data T) *Node[T] {
 	child := &Node[T]{Data: data, Parent: parent}
 	parent.Children = append(parent.Children, child)
 
-	gt.size++
+	gt.Size++
 
 	return child
 }
 
-func (gt *generalTree[T]) Set(n *Node[T], data T) T {
+// Set changes the data of the given node. It returns the previously stored data.
+func (gt *GeneralTree[T]) Set(n *Node[T], data T) T {
 	val := n.Data
 	n.Data = data
 	return val
 }
 
-func (gt *generalTree[T]) PreOrder() (list []*Node[T]) {
+// PreOrder returns a slice of the nodes of the tree in pre-order.
+func (gt *GeneralTree[T]) PreOrder() (list []*Node[T]) {
 	if !gt.IsEmpty() {
-		gt.preOrderUtil(gt.root, &list)
+		gt.preOrderUtil(gt.Root, &list)
 	}
 	return
 }
 
-func (gt *generalTree[T]) preOrderUtil(n *Node[T], list *[]*Node[T]) {
+// preOrderUtil walks the tree in pre-order recursively and appends visited nodes to the slice.
+func (gt *GeneralTree[T]) preOrderUtil(n *Node[T], list *[]*Node[T]) {
 	*list = append(*list, n)
 
 	for _, c := range gt.Children(n) {
@@ -117,7 +118,8 @@ func (gt *generalTree[T]) preOrderUtil(n *Node[T], list *[]*Node[T]) {
 	}
 }
 
-func (gt *generalTree[T]) String() string {
+// String returns a string representation of the tree in pre-order.
+func (gt *GeneralTree[T]) String() string {
 	list := gt.PreOrder()
 
 	str := "[ "
@@ -131,14 +133,16 @@ func (gt *generalTree[T]) String() string {
 	return str
 }
 
-func (gt *generalTree[T]) PostOrder() (list []*Node[T]) {
+// PostOrder returns a slice of the nodes of the tree in post-order.
+func (gt *GeneralTree[T]) PostOrder() (list []*Node[T]) {
 	if !gt.IsEmpty() {
-		gt.postOrderUtil(gt.root, &list)
+		gt.postOrderUtil(gt.Root, &list)
 	}
 	return
 }
 
-func (gt *generalTree[T]) postOrderUtil(n *Node[T], list *[]*Node[T]) {
+// postOrderUtil walks the tree in post-order recursively and appends visited nodes to the slice.
+func (gt *GeneralTree[T]) postOrderUtil(n *Node[T], list *[]*Node[T]) {
 	for _, c := range gt.Children(n) {
 		gt.postOrderUtil(c, list)
 	}
@@ -146,13 +150,14 @@ func (gt *generalTree[T]) postOrderUtil(n *Node[T], list *[]*Node[T]) {
 	*list = append(*list, n)
 }
 
-func (gt *generalTree[T]) BFS() (list []*Node[T]) {
+// BFS returns a slice of the nodes of the tree in breadth-first order.
+func (gt *GeneralTree[T]) BFS() (list []*Node[T]) {
 	if gt.IsEmpty() {
 		return
 	}
 
 	queue := queue.NewLinkedQueue[*Node[T]]()
-	queue.Enqueue(gt.root)
+	queue.Enqueue(gt.Root)
 
 	for !queue.IsEmpty() {
 		n, _ := queue.Dequeue()
@@ -167,13 +172,14 @@ func (gt *generalTree[T]) BFS() (list []*Node[T]) {
 	return
 }
 
-func (gt *generalTree[T]) DFS() (list []*Node[T]) {
+// DFS returns a slice of the nodes of the tree in depth-first order.
+func (gt *GeneralTree[T]) DFS() (list []*Node[T]) {
 	if gt.IsEmpty() {
 		return
 	}
 
 	stack := stack.NewLinkedStack[*Node[T]]()
-	stack.Push(gt.root)
+	stack.Push(gt.Root)
 
 	for !stack.IsEmpty() {
 		n, _ := stack.Pop()
@@ -188,14 +194,16 @@ func (gt *generalTree[T]) DFS() (list []*Node[T]) {
 	return
 }
 
-func (gt *generalTree[T]) EulerTour() (list []*Node[T]) {
+// EulerTour returns a slice of the nodes of the tree visited in the euler tour.
+func (gt *GeneralTree[T]) EulerTour() (list []*Node[T]) {
 	if !gt.IsEmpty() {
-		gt.eulerTourUtil(gt.root, &list)
+		gt.eulerTourUtil(gt.Root, &list)
 	}
 	return
 }
 
-func (gt *generalTree[T]) eulerTourUtil(n *Node[T], list *[]*Node[T]) {
+// eulerTourUtil walks the tree in euler-tour recursively and appends visited nodes to the slice.
+func (gt *GeneralTree[T]) eulerTourUtil(n *Node[T], list *[]*Node[T]) {
 	*list = append(*list, n)
 
 	for _, c := range gt.Children(n) {
