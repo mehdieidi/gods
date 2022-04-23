@@ -5,7 +5,7 @@ import (
 	"math"
 
 	"github.com/MehdiEidi/gods/queue"
-	"github.com/MehdiEidi/gods/stack"
+	"github.com/MehdiEidi/gods/stack/linkedstack"
 )
 
 type GeneralTree[T any] struct {
@@ -178,7 +178,7 @@ func (gt *GeneralTree[T]) DFS() (list []*Node[T]) {
 		return
 	}
 
-	stack := stack.NewLinkedStack[*Node[T]]()
+	stack := linkedstack.New[*Node[T]]()
 	stack.Push(gt.Root)
 
 	for !stack.IsEmpty() {

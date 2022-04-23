@@ -8,7 +8,8 @@ import (
 	"github.com/MehdiEidi/gods/linkedlist/singly"
 	"github.com/MehdiEidi/gods/queue"
 	"github.com/MehdiEidi/gods/set"
-	"github.com/MehdiEidi/gods/stack"
+	"github.com/MehdiEidi/gods/stack/linkedstack"
+	"github.com/MehdiEidi/gods/stack/slicestack"
 	"github.com/MehdiEidi/gods/tree/binarytree"
 	"github.com/MehdiEidi/gods/tree/generaltree"
 )
@@ -45,12 +46,12 @@ func NewSliceQueue[T any]() queue.Queue[T] {
 	return queue.NewSliceQueue[T]()
 }
 
-func NewLinkedStack[T comparable]() stack.Stack[T] {
-	return stack.NewLinkedStack[T]()
+func NewLinkedStack[T comparable]() *linkedstack.LinkedStack[T] {
+	return linkedstack.New[T]()
 }
 
-func NewSliceStack[T any]() stack.Stack[T] {
-	return stack.NewSliceStack[T]()
+func NewSliceStack[T any]() *slicestack.SliceStack[T] {
+	return slicestack.New[T]()
 }
 
 func NewBitset8() *bitset.Bitset8 {

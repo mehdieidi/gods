@@ -5,7 +5,7 @@ import (
 	"math"
 
 	"github.com/MehdiEidi/gods/queue"
-	"github.com/MehdiEidi/gods/stack"
+	"github.com/MehdiEidi/gods/stack/linkedstack"
 )
 
 type BinaryTree[T any] struct {
@@ -326,7 +326,7 @@ func (bt *BinaryTree[T]) DFS() (list []*Node[T]) {
 		return
 	}
 
-	stack := stack.NewLinkedStack[*Node[T]]()
+	stack := linkedstack.New[*Node[T]]()
 	stack.Push(bt.Root)
 
 	for !stack.IsEmpty() {
