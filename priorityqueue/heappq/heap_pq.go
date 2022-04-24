@@ -2,29 +2,28 @@ package heappq
 
 import (
 	"fmt"
-
-	"github.com/MehdiEidi/gods/priorityqueue"
 )
 
-type heapPQ[K any, V any] struct {
-	heap       []*priorityqueue.Entry[K, V]
-	comparator priorityqueue.Comparator[K]
+type HeapPQ[K any, V any] struct {
+	heap       []*Entry[K, V]
+	comparator Comparator[K]
 }
 
-func New[K any, V any](comparator priorityqueue.Comparator[K]) priorityqueue.PriorityQueue[K, V] {
-	return &heapPQ[K, V]{heap: []*priorityqueue.Entry[K, V]{}, comparator: comparator}
+// New constructs and returns an empty priority queue based on a min-heap.
+func New[K any, V any](comparator Comparator[K]) *HeapPQ[K, V] {
+	return &HeapPQ[K, V]{heap: []*Entry[K, V]{}, comparator: comparator}
 }
 
-func NewWithValues[K any, V any](keys []K, values []V, comparator priorityqueue.Comparator[K]) (priorityqueue.PriorityQueue[K, V], error) {
+// NewWithValues gets slices of keys and values and constructs a priority queue using heapify buttom-up construction.
+func NewWithValues[K any, V any](keys []K, values []V, comparator Comparator[K]) (*HeapPQ[K, V], error) {
 	if len(keys) != len(values) {
 		return nil, KeysValuesNotSameLenErr
 	}
 
-	// Construct a new priority queue and type assert it to heapPQ.
-	h := New[K, V](comparator).(*heapPQ[K, V])
+	h := New[K, V](comparator)
 
 	for i := 0; i < len(keys); i++ {
-		h.heap = append(h.heap, &priorityqueue.Entry[K, V]{Key: keys[i], Value: values[i]})
+		h.heap = append(h.heap, &Entry[K, V]{Key: keys[i], Value: values[i]})
 	}
 
 	h.heapify()
@@ -32,8 +31,9 @@ func NewWithValues[K any, V any](keys []K, values []V, comparator priorityqueue.
 	return h, nil
 }
 
-func (h *heapPQ[K, V]) Enqueue(key K, value V) *priorityqueue.Entry[K, V] {
-	newEntry := &priorityqueue.Entry[K, V]{Key: key, Value: value}
+// Enqueue constructs an entry, adds it to the pq, and returns it.
+func (h *HeapPQ[K, V]) Enqueue(key K, value V) *Entry[K, V] {
+	newEntry := &Entry[K, V]{Key: key, Value: value}
 
 	h.heap = append(h.heap, newEntry)
 	h.upHeapBubble(h.Size() - 1)
@@ -41,7 +41,8 @@ func (h *heapPQ[K, V]) Enqueue(key K, value V) *priorityqueue.Entry[K, V] {
 	return newEntry
 }
 
-func (h *heapPQ[K, V]) Dequeue() *priorityqueue.Entry[K, V] {
+// Dequeue removes the entry with the highest priority and returns it.
+func (h *HeapPQ[K, V]) Dequeue() *Entry[K, V] {
 	if h.IsEmpty() {
 		return nil
 	}
@@ -55,46 +56,56 @@ func (h *heapPQ[K, V]) Dequeue() *priorityqueue.Entry[K, V] {
 	return res
 }
 
-func (h *heapPQ[K, V]) Size() int {
-	return len(h.heap)
-}
-
-func (h *heapPQ[K, V]) IsEmpty() bool {
-	return h.Size() == 0
-}
-
-func (h *heapPQ[K, V]) Min() *priorityqueue.Entry[K, V] {
+// Min returns the entry with the highest priority (that entry is the first element in the heap).
+func (h *HeapPQ[K, V]) Min() *Entry[K, V] {
 	if h.IsEmpty() {
 		return nil
 	}
 	return h.heap[0]
 }
 
-func (h *heapPQ[K, V]) parent(i int) int {
+// Size returns the number of elements in the pq.
+func (h *HeapPQ[K, V]) Size() int {
+	return len(h.heap)
+}
+
+// IsEmpty returns true if the pq doesn't have any elements.
+func (h *HeapPQ[K, V]) IsEmpty() bool {
+	return h.Size() == 0
+}
+
+// parent returns the index of the parent of the given index of the entry in the heap.
+func (h *HeapPQ[K, V]) parent(i int) int {
 	return (i - 1) / 2
 }
 
-func (h *heapPQ[K, V]) left(i int) int {
+// left returns the index of the left child of the given entry's index in the heap.
+func (h *HeapPQ[K, V]) left(i int) int {
 	return 2*i + 1
 }
 
-func (h *heapPQ[K, V]) right(i int) int {
+// right returns the index of the right child of the given entry's index in the heap.
+func (h *HeapPQ[K, V]) right(i int) int {
 	return 2*i + 2
 }
 
-func (h *heapPQ[K, V]) hasLeft(i int) bool {
+// hasLeft returns true if the given entry has a left child in the heap.
+func (h *HeapPQ[K, V]) hasLeft(i int) bool {
 	return h.left(i) < len(h.heap)
 }
 
-func (h *heapPQ[K, V]) hasRight(i int) bool {
+// hasRight returns true if the given entry has a right child in the heap.
+func (h *HeapPQ[K, V]) hasRight(i int) bool {
 	return h.right(i) < len(h.heap)
 }
 
-func (h *heapPQ[K, V]) swap(i, j int) {
+// swap just swaps two entries in the heap.
+func (h *HeapPQ[K, V]) swap(i, j int) {
 	h.heap[i], h.heap[j] = h.heap[j], h.heap[i]
 }
 
-func (h *heapPQ[K, V]) upHeapBubble(i int) {
+// upHeapBubble swaps the node upwards until reaching the right position in the heap.
+func (h *HeapPQ[K, V]) upHeapBubble(i int) {
 	// Until reaching root.
 	for i > 0 {
 		p := h.parent(i)
@@ -108,7 +119,8 @@ func (h *heapPQ[K, V]) upHeapBubble(i int) {
 	}
 }
 
-func (h *heapPQ[K, V]) downHeapBubble(i int) {
+// downHeapBubble swaps the node downwards until reaching the right position in the heap.
+func (h *HeapPQ[K, V]) downHeapBubble(i int) {
 	// Until reaching bottom.
 	for h.hasLeft(i) {
 		leftIdx := h.left(i)
@@ -131,7 +143,8 @@ func (h *heapPQ[K, V]) downHeapBubble(i int) {
 	}
 }
 
-func (h *heapPQ[K, V]) String() string {
+// String returns the string representation of the pq.
+func (h *HeapPQ[K, V]) String() string {
 	str := "[ "
 
 	for _, e := range h.heap {
@@ -143,7 +156,9 @@ func (h *heapPQ[K, V]) String() string {
 	return str
 }
 
-func (h *heapPQ[K, V]) heapify() {
+// heapify calls downHeapBubble on the nodes to relocate them to the right position. It is used in
+// button-up heap construction with the given slices of keys and values.
+func (h *HeapPQ[K, V]) heapify() {
 	for i := h.parent(h.Size() - 1); i >= 0; i-- {
 		h.downHeapBubble(i)
 	}

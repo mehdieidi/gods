@@ -6,6 +6,11 @@ import (
 	"github.com/MehdiEidi/gods/linkedlist/circularly"
 	"github.com/MehdiEidi/gods/linkedlist/doubly"
 	"github.com/MehdiEidi/gods/linkedlist/singly"
+	"github.com/MehdiEidi/gods/positionallist"
+	"github.com/MehdiEidi/gods/priorityqueue/adaptablepq"
+	"github.com/MehdiEidi/gods/priorityqueue/heappq"
+	"github.com/MehdiEidi/gods/priorityqueue/sortedpq"
+	"github.com/MehdiEidi/gods/priorityqueue/unsortedpq"
 	"github.com/MehdiEidi/gods/queue/circularqueue"
 	"github.com/MehdiEidi/gods/queue/linkedqueue"
 	"github.com/MehdiEidi/gods/queue/slicequeue"
@@ -66,4 +71,28 @@ func NewBinaryTree[T any]() *binarytree.BinaryTree[T] {
 
 func NewGeneralTree[T any]() *generaltree.GeneralTree[T] {
 	return generaltree.New[T]()
+}
+
+func NewPositionalList[T any]() *positionallist.PositionalList[T] {
+	return positionallist.New[T]()
+}
+
+func NewUnsortedPQ[K, V any](comparator unsortedpq.Comparator[K]) *unsortedpq.UnsortedPQ[K, V] {
+	return unsortedpq.New[K, V](comparator)
+}
+
+func NewSortedPQ[K, V any](comparator sortedpq.Comparator[K]) *sortedpq.SortedPQ[K, V] {
+	return sortedpq.New[K, V](comparator)
+}
+
+func NewHeapPQ[K, V any](comparator heappq.Comparator[K]) *heappq.HeapPQ[K, V] {
+	return heappq.New[K, V](comparator)
+}
+
+func NewHeapPQWithValues[K, V any](comparator heappq.Comparator[K], keys []K, values []V) (*heappq.HeapPQ[K, V], error) {
+	return heappq.NewWithValues(keys, values, comparator)
+}
+
+func NewAdaptablePQ[K, V any](comparator adaptablepq.Comparator[K]) *adaptablepq.AdaptablePQ[K, V] {
+	return adaptablepq.New[K, V](comparator)
 }

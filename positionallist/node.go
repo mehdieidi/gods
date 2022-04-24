@@ -1,11 +1,7 @@
 package positionallist
 
-type node[T comparable] struct {
-	data T
-	prev *node[T]
-	next *node[T]
-}
-
-func (n *node[T]) Element() T {
-	return n.data
+type Node[T any] struct {
+	Data T
+	Prev *Node[T]
+	Next *Node[T]
 }

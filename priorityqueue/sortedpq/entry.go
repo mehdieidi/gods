@@ -1,9 +1,8 @@
-package adaptablepq
+package sortedpq
 
 import "fmt"
 
-type Entry[K, V any] struct {
-	Index int
+type Entry[K any, V any] struct {
 	Key   K
 	Value V
 }
