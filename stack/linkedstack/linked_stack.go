@@ -2,12 +2,12 @@ package linkedstack
 
 import "github.com/MehdiEidi/gods/linkedlist/singly"
 
-type LinkedStack[T comparable] struct {
+type LinkedStack[T any] struct {
 	data singly.LinkedList[T]
 }
 
 // New constructs and returns an empty linked stack.
-func New[T comparable]() *LinkedStack[T] {
+func New[T any]() *LinkedStack[T] {
 	return &LinkedStack[T]{}
 }
 

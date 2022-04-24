@@ -16,15 +16,15 @@ import (
 	"github.com/MehdiEidi/gods/tree/generaltree"
 )
 
-func NewSinglyLinkedList[T comparable]() *singly.LinkedList[T] {
+func NewSinglyLinkedList[T any]() *singly.LinkedList[T] {
 	return singly.New[T]()
 }
 
-func NewDoublyLinkedList[T comparable]() *doubly.LinkedList[T] {
+func NewDoublyLinkedList[T any]() *doubly.LinkedList[T] {
 	return doubly.New[T]()
 }
 
-func NewCircularlyLinkedList[T comparable]() *circularly.LinkedList[T] {
+func NewCircularlyLinkedList[T any]() *circularly.LinkedList[T] {
 	return circularly.New[T]()
 }
 
@@ -36,11 +36,11 @@ func NewDeque[T any]() *deque.Deque[T] {
 	return deque.New[T]()
 }
 
-func NewLinkedQueue[T comparable]() *linkedqueue.LinkedQueue[T] {
+func NewLinkedQueue[T any]() *linkedqueue.LinkedQueue[T] {
 	return linkedqueue.New[T]()
 }
 
-func NewCircularQueue[T comparable]() *circularqueue.CircularQueue[T] {
+func NewCircularQueue[T any]() *circularqueue.CircularQueue[T] {
 	return circularqueue.New[T]()
 }
 
@@ -48,7 +48,7 @@ func NewSliceQueue[T any]() *slicequeue.SliceQueue[T] {
 	return slicequeue.New[T]()
 }
 
-func NewLinkedStack[T comparable]() *linkedstack.LinkedStack[T] {
+func NewLinkedStack[T any]() *linkedstack.LinkedStack[T] {
 	return linkedstack.New[T]()
 }
 
@@ -57,7 +57,7 @@ func NewSliceStack[T any]() *slicestack.SliceStack[T] {
 }
 
 func NewBitset8() *bitset.Bitset8 {
-	return bitset.New()
+	return bitset.NewBitset8()
 }
 
 func NewBinaryTree[T any]() *binarytree.BinaryTree[T] {

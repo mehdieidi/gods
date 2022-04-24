@@ -2,12 +2,12 @@ package circularqueue
 
 import "github.com/MehdiEidi/gods/linkedlist/circularly"
 
-type CircularQueue[T comparable] struct {
+type CircularQueue[T any] struct {
 	data circularly.LinkedList[T]
 }
 
 // New constructs and returns an empty circular queue.
-func New[T comparable]() *CircularQueue[T] {
+func New[T any]() *CircularQueue[T] {
 	return &CircularQueue[T]{}
 }
 

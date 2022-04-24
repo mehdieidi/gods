@@ -4,12 +4,12 @@ import (
 	"github.com/MehdiEidi/gods/linkedlist/singly"
 )
 
-type LinkedQueue[T comparable] struct {
+type LinkedQueue[T any] struct {
 	data singly.LinkedList[T]
 }
 
 // New constructs and returns an empty linked queue.
-func New[T comparable]() *LinkedQueue[T] {
+func New[T any]() *LinkedQueue[T] {
 	return &LinkedQueue[T]{}
 }
 
