@@ -32,8 +32,8 @@ func NewSet[T comparable]() *set.Set[T] {
 	return set.New[T]()
 }
 
-func NewDeque[T comparable]() deque.Deque[T] {
-	return deque.NewLinkedDeque[T]()
+func NewDeque[T any]() *deque.Deque[T] {
+	return deque.New[T]()
 }
 
 func NewLinkedQueue[T comparable]() *linkedqueue.LinkedQueue[T] {
