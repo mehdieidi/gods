@@ -1,29 +1,31 @@
 # gods
 Library of generic data structures for Go.
 
-
-* [bitset](./bitset/)
-* [linked list](./linkedlist/)
-  * [singly linked list](./linkedlist/doubly/)
-  * [doubly linked list](./linkedlist/doubly/)
-  * [circularly linked list](./linkedlist/circularly/)
-* [set](./set/)
-* [stack](./stack/)
-  * [stack using linked list](./stack/)
-  * [stack using slice](./stack/)
-* [queue](./queue/)
-  * [queue using linked list](./queue/)
-  * [queue using slice](./queue/)
-  * [circular queue](./queue/)
-* [deque](./deque/)
-* [positional list](./positionallist/)
-* [tree](./tree/)
-  * [binary tree](./tree/binarytree/)
-  * [general tree](./tree/generaltree/)
 * [priority queue](./priorityqueue/)
   * [sorted list priority queue](./priorityqueue/sortedpq/)
   * [unsorted list priority queue](./priorityqueue/unsortedpq/)
   * [heap priority queue](./priorityqueue/heappq/)
+  * [adaptable heap priority queue](./priorityqueue/adaptablepq/)
+* [tree](./tree/)
+  * [binary tree](./tree/binarytree/)
+  * [general tree](./tree/generaltree/)
+* [queue](./queue/)
+  * [queue using linked list](./queue/linkedqueue/)
+  * [queue using slice](./queue/slicequeue/)
+  * [circular queue](./queue/circularqueue/)
+* [stack](./stack/)
+  * [stack using linked list](./stack/linkedstack/)
+  * [stack using slice](./stack/slicestack/)
+* [bitset](./bitset/)
+* [linked list](./linkedlist/)
+  * [singly linked list](./linkedlist/singly/)
+  * [doubly linked list](./linkedlist/doubly/)
+  * [circularly linked list](./linkedlist/circularly/)
+* [set](./set/)
+* [deque](./deque/)
+* [positional list](./positionallist/)
+
+
   
   --- more coming soon :D ---
 
