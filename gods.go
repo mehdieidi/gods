@@ -6,7 +6,9 @@ import (
 	"github.com/MehdiEidi/gods/linkedlist/circularly"
 	"github.com/MehdiEidi/gods/linkedlist/doubly"
 	"github.com/MehdiEidi/gods/linkedlist/singly"
-	"github.com/MehdiEidi/gods/queue"
+	"github.com/MehdiEidi/gods/queue/circularqueue"
+	"github.com/MehdiEidi/gods/queue/linkedqueue"
+	"github.com/MehdiEidi/gods/queue/slicequeue"
 	"github.com/MehdiEidi/gods/set"
 	"github.com/MehdiEidi/gods/stack/linkedstack"
 	"github.com/MehdiEidi/gods/stack/slicestack"
@@ -14,15 +16,15 @@ import (
 	"github.com/MehdiEidi/gods/tree/generaltree"
 )
 
-func NewSinglyLinkedList[T comparable]() *singly.SinglyLinkedList[T] {
+func NewSinglyLinkedList[T comparable]() *singly.LinkedList[T] {
 	return singly.New[T]()
 }
 
-func NewDoublyLinkedList[T comparable]() *doubly.DoublyLinkedList[T] {
+func NewDoublyLinkedList[T comparable]() *doubly.LinkedList[T] {
 	return doubly.New[T]()
 }
 
-func NewCircularlyLinkedList[T comparable]() *circularly.CircularlyLinkedList[T] {
+func NewCircularlyLinkedList[T comparable]() *circularly.LinkedList[T] {
 	return circularly.New[T]()
 }
 
@@ -34,16 +36,16 @@ func NewDeque[T comparable]() deque.Deque[T] {
 	return deque.NewLinkedDeque[T]()
 }
 
-func NewLinkedQueue[T comparable]() queue.Queue[T] {
-	return queue.NewLinkedQueue[T]()
+func NewLinkedQueue[T comparable]() *linkedqueue.LinkedQueue[T] {
+	return linkedqueue.New[T]()
 }
 
-func NewCircularQueue[T comparable]() queue.Queue[T] {
-	return queue.NewCircularQueue[T]()
+func NewCircularQueue[T comparable]() *circularqueue.CircularQueue[T] {
+	return circularqueue.New[T]()
 }
 
-func NewSliceQueue[T any]() queue.Queue[T] {
-	return queue.NewSliceQueue[T]()
+func NewSliceQueue[T any]() *slicequeue.SliceQueue[T] {
+	return slicequeue.New[T]()
 }
 
 func NewLinkedStack[T comparable]() *linkedstack.LinkedStack[T] {

@@ -3,7 +3,7 @@ package deque
 import "github.com/MehdiEidi/gods/linkedlist/doubly"
 
 type LinkedDeque[T comparable] struct {
-	Data doubly.DoublyLinkedList[T]
+	Data doubly.LinkedList[T]
 }
 
 func NewLinkedDeque[T comparable]() Deque[T] {

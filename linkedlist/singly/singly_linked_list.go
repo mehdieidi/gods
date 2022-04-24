@@ -1,27 +1,27 @@
 package singly
 
 import (
-	"errors"
 	"fmt"
 )
 
-// TODO: reverse, find, remove by value
-
-type SinglyLinkedList[T comparable] struct {
+type LinkedList[T any] struct {
 	Head *Node[T]
 	Tail *Node[T]
 	Size int
 }
 
-func New[T comparable]() *SinglyLinkedList[T] {
-	return &SinglyLinkedList[T]{}
+// New constructs and returns an empty singlt linked list.
+func New[T any]() *LinkedList[T] {
+	return &LinkedList[T]{}
 }
 
-func (s *SinglyLinkedList[T]) IsEmpty() bool {
+// IsEmpty returns true if the linked list doesn't have any nodes.
+func (s *LinkedList[T]) IsEmpty() bool {
 	return s.Size == 0
 }
 
-func (s *SinglyLinkedList[T]) First() (data T, ok bool) {
+// First returns the first element of the list. It returns false if the list is empty.
+func (s *LinkedList[T]) First() (data T, ok bool) {
 	if s.IsEmpty() {
 		return
 	}
@@ -29,7 +29,8 @@ func (s *SinglyLinkedList[T]) First() (data T, ok bool) {
 	return s.Head.Data, true
 }
 
-func (s *SinglyLinkedList[T]) Last() (data T, ok bool) {
+// Last returns the last element of the list. It returns false if the list is empty.
+func (s *LinkedList[T]) Last() (data T, ok bool) {
 	if s.IsEmpty() {
 		return
 	}
@@ -37,7 +38,8 @@ func (s *SinglyLinkedList[T]) Last() (data T, ok bool) {
 	return s.Tail.Data, true
 }
 
-func (s *SinglyLinkedList[T]) AddFirst(data T) {
+// AddFirst adds a new element to the first of the list.
+func (s *LinkedList[T]) AddFirst(data T) {
 	s.Head = &Node[T]{Data: data, Next: s.Head}
 
 	if s.Size == 0 {
@@ -47,23 +49,26 @@ func (s *SinglyLinkedList[T]) AddFirst(data T) {
 	s.Size++
 }
 
-func (s *SinglyLinkedList[T]) AddLast(data T) {
-	newNode := Node[T]{Data: data}
+// AddLast adds a new element to the end of the list.
+func (s *LinkedList[T]) AddLast(data T) {
+	newNode := &Node[T]{Data: data}
 
 	if s.IsEmpty() {
-		s.Head = &newNode
+		s.Head = newNode
 	} else {
-		s.Tail.Next = &newNode
+		s.Tail.Next = newNode
 	}
 
-	s.Tail = &newNode
+	s.Tail = newNode
 
 	s.Size++
 }
 
-func (s *SinglyLinkedList[T]) Add(data T, index int) error {
+// Add adds an element to the given index in the list. It returns InvalidIndexErr if the given index is
+// out of bound.
+func (s *LinkedList[T]) Add(data T, index int) error {
 	if index < 0 || index > s.Size {
-		return errors.New("invalid index")
+		return InvalidIndexErr
 	}
 
 	if index == 0 {
@@ -93,7 +98,8 @@ func (s *SinglyLinkedList[T]) Add(data T, index int) error {
 	return nil
 }
 
-func (s *SinglyLinkedList[T]) RemoveFirst() (val T, ok bool) {
+// RemoveFirst removes and returns the first element of the list. It returns false if the list is empty.
+func (s *LinkedList[T]) RemoveFirst() (val T, ok bool) {
 	if s.IsEmpty() {
 		return
 	}
@@ -110,14 +116,15 @@ func (s *SinglyLinkedList[T]) RemoveFirst() (val T, ok bool) {
 	return val, true
 }
 
-func (s *SinglyLinkedList[T]) RemoveLast() (val T, ok bool) {
+// RemoveLast removes and returns the last element of the list. It returns false if the list empty.
+func (s *LinkedList[T]) RemoveLast() (val T, ok bool) {
 	if s.IsEmpty() {
 		return
 	}
 
-	if s.Size == 1 {
-		val = s.Tail.Data
+	val = s.Tail.Data
 
+	if s.Size == 1 {
 		s.Tail = nil
 		s.Head = nil
 		s.Size--
@@ -125,10 +132,7 @@ func (s *SinglyLinkedList[T]) RemoveLast() (val T, ok bool) {
 		return val, true
 	}
 
-	val = s.Tail.Data
-
 	current := s.Head
-
 	for ; current.Next.Next != nil; current = current.Next {
 	}
 
@@ -144,9 +148,11 @@ func (s *SinglyLinkedList[T]) RemoveLast() (val T, ok bool) {
 	return val, true
 }
 
-func (s *SinglyLinkedList[T]) Remove(index int) (val T, ok bool, err error) {
+// Remove removes the element in the given index. It returns false if the list is empty also it
+// returns InvalidIndexErr if the given index is out of bound.
+func (s *LinkedList[T]) Remove(index int) (val T, ok bool, err error) {
 	if index < 0 || index >= s.Size {
-		return val, false, errors.New("invalid index")
+		return val, false, InvalidIndexErr
 	}
 
 	if index == 0 {
@@ -177,7 +183,8 @@ func (s *SinglyLinkedList[T]) Remove(index int) (val T, ok bool, err error) {
 	return val, true, nil
 }
 
-func (s *SinglyLinkedList[T]) String() string {
+// String retruns the string representation of the list.
+func (s *LinkedList[T]) String() string {
 	str := "[ "
 
 	current := s.Head
@@ -190,28 +197,9 @@ func (s *SinglyLinkedList[T]) String() string {
 	return str
 }
 
-func (s *SinglyLinkedList[T]) Equals(other *SinglyLinkedList[T]) bool {
-	if other == nil || s.Size != other.Size {
-		return false
-	}
-
-	current1 := s.Head
-	current2 := other.Head
-
-	for current1 != nil {
-		if !current1.Equals(current2) {
-			return false
-		}
-
-		current1 = current1.Next
-		current2 = current2.Next
-	}
-
-	return true
-}
-
-func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
-	var newSingly SinglyLinkedList[T]
+// Clone constructs and returns a clone of the list.
+func (s *LinkedList[T]) Clone() *LinkedList[T] {
+	var newSingly LinkedList[T]
 
 	if s.Size == 0 {
 		return &newSingly
@@ -237,7 +225,8 @@ func (s *SinglyLinkedList[T]) Clone() *SinglyLinkedList[T] {
 	return &newSingly
 }
 
-func (s *SinglyLinkedList[T]) ToSlice() []T {
+// ToSlice returns a slice of the list's elements.
+func (s *LinkedList[T]) ToSlice() []T {
 	r := make([]T, s.Size)
 
 	for i, cur := 0, s.Head; cur != nil && i < len(r); i, cur = i+1, cur.Next {

@@ -1,14 +1,14 @@
 package doubly
 
-type Node[T comparable] struct {
+import "fmt"
+
+type Node[T any] struct {
 	Data T
 	Prev *Node[T]
 	Next *Node[T]
 }
 
-func (n *Node[T]) Equals(other *Node[T]) bool {
-	if other == nil {
-		return false
-	}
-	return n.Data == other.Data
+// String returns the string representation of the node's data.
+func (n *Node[T]) String() string {
+	return fmt.Sprint(n.Data)
 }

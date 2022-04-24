@@ -2,20 +2,23 @@ package circularly
 
 import "fmt"
 
-type CircularlyLinkedList[T comparable] struct {
+type LinkedList[T any] struct {
 	tail *Node[T]
 	Size int
 }
 
-func New[T comparable]() *CircularlyLinkedList[T] {
-	return &CircularlyLinkedList[T]{}
+// New constructs and returns an empty circularly linked list.
+func New[T any]() *LinkedList[T] {
+	return &LinkedList[T]{}
 }
 
-func (c *CircularlyLinkedList[T]) IsEmpty() bool {
+// IsEmpty returns true if the list doesn't have any elements.
+func (c *LinkedList[T]) IsEmpty() bool {
 	return c.Size == 0
 }
 
-func (c *CircularlyLinkedList[T]) First() (data T, ok bool) {
+// First returns the first element of the list. It returns false if the list is empty.
+func (c *LinkedList[T]) First() (data T, ok bool) {
 	if c.IsEmpty() {
 		return
 	}
@@ -23,7 +26,8 @@ func (c *CircularlyLinkedList[T]) First() (data T, ok bool) {
 	return c.tail.Next.Data, true
 }
 
-func (c *CircularlyLinkedList[T]) Last() (data T, ok bool) {
+// Last returns the last element of the list. It returns false if the list is empty.
+func (c *LinkedList[T]) Last() (data T, ok bool) {
 	if c.IsEmpty() {
 		return
 	}
@@ -31,13 +35,15 @@ func (c *CircularlyLinkedList[T]) Last() (data T, ok bool) {
 	return c.tail.Data, true
 }
 
-func (c *CircularlyLinkedList[T]) Rotate() {
+// Rotate rotates the list. It moves the first element to the end.
+func (c *LinkedList[T]) Rotate() {
 	if c.tail != nil {
 		c.tail = c.tail.Next
 	}
 }
 
-func (c *CircularlyLinkedList[T]) AddFirst(data T) {
+// AddFirst adds a new element to the first of the list.
+func (c *LinkedList[T]) AddFirst(data T) {
 	if c.IsEmpty() {
 		c.tail = &Node[T]{Data: data}
 		c.tail.Next = c.tail
@@ -49,12 +55,14 @@ func (c *CircularlyLinkedList[T]) AddFirst(data T) {
 	c.Size++
 }
 
-func (c *CircularlyLinkedList[T]) AddLast(data T) {
+// AddLast adds a new element to the end of the list.
+func (c *LinkedList[T]) AddLast(data T) {
 	c.AddFirst(data)
 	c.tail = c.tail.Next
 }
 
-func (c *CircularlyLinkedList[T]) RemoveFirst() (data T, ok bool) {
+// RemoveFirst removes and returns the first element of the list. It returns false if the list is empty.
+func (c *LinkedList[T]) RemoveFirst() (data T, ok bool) {
 	if c.IsEmpty() {
 		return
 	}
@@ -74,7 +82,8 @@ func (c *CircularlyLinkedList[T]) RemoveFirst() (data T, ok bool) {
 	return val, true
 }
 
-func (c *CircularlyLinkedList[T]) RemoveLast() (data T, ok bool) {
+// RemoveLast removes and returns the last element of the list. It returns false if the list empty.
+func (c *LinkedList[T]) RemoveLast() (data T, ok bool) {
 	if c.IsEmpty() {
 		return
 	}
@@ -93,7 +102,8 @@ func (c *CircularlyLinkedList[T]) RemoveLast() (data T, ok bool) {
 	return data, true
 }
 
-func (c *CircularlyLinkedList[T]) String() string {
+// String retruns the string representation of the list.
+func (c *LinkedList[T]) String() string {
 	if c.IsEmpty() {
 		return "[ ]"
 	}
@@ -109,24 +119,4 @@ func (c *CircularlyLinkedList[T]) String() string {
 	str += fmt.Sprint(c.tail.Data) + " ]"
 
 	return str
-}
-
-func (c *CircularlyLinkedList[T]) Equals(other *CircularlyLinkedList[T]) bool {
-	if other == nil || c.Size != other.Size {
-		return false
-	}
-
-	current1 := c.tail.Next
-	current2 := other.tail.Next
-
-	for current1 != c.tail {
-		if !current1.Equals(current2) {
-			return false
-		}
-
-		current1 = current1.Next
-		current2 = current2.Next
-	}
-
-	return true
 }

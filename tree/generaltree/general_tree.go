@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/MehdiEidi/gods/queue"
+	"github.com/MehdiEidi/gods/queue/linkedqueue"
 	"github.com/MehdiEidi/gods/stack/linkedstack"
 )
 
@@ -156,7 +156,7 @@ func (gt *GeneralTree[T]) BFS() (list []*Node[T]) {
 		return
 	}
 
-	queue := queue.NewLinkedQueue[*Node[T]]()
+	queue := linkedqueue.New[*Node[T]]()
 	queue.Enqueue(gt.Root)
 
 	for !queue.IsEmpty() {

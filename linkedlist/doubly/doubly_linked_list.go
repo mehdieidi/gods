@@ -2,14 +2,15 @@ package doubly
 
 import "fmt"
 
-type DoublyLinkedList[T comparable] struct {
-	header  *Node[T]
-	trailer *Node[T]
+type LinkedList[T any] struct {
+	header  *Node[T] // header is a sentinel node. header.Next is the first element in the list.
+	trailer *Node[T] // trailer is a sentinel node. trailer.Prev is the last element in the list.
 	Size    int
 }
 
-func New[T comparable]() *DoublyLinkedList[T] {
-	var d DoublyLinkedList[T]
+// New constructs and returns an empty doubly linked list.
+func New[T any]() *LinkedList[T] {
+	var d LinkedList[T]
 
 	d.header = &Node[T]{}
 	d.trailer = &Node[T]{Prev: d.header}
@@ -18,11 +19,13 @@ func New[T comparable]() *DoublyLinkedList[T] {
 	return &d
 }
 
-func (d *DoublyLinkedList[T]) IsEmpty() bool {
+// IsEmpty returns true if the list doesn't have any elements.
+func (d *LinkedList[T]) IsEmpty() bool {
 	return d.Size == 0
 }
 
-func (d *DoublyLinkedList[T]) First() (data T, ok bool) {
+// First returns the first element of the list. It returns false if the list is empty.
+func (d *LinkedList[T]) First() (data T, ok bool) {
 	if d.IsEmpty() {
 		return
 	}
@@ -30,7 +33,8 @@ func (d *DoublyLinkedList[T]) First() (data T, ok bool) {
 	return d.header.Next.Data, true
 }
 
-func (d *DoublyLinkedList[T]) Last() (data T, ok bool) {
+// Last returns the last element of the list. It returns false if the list is empty.
+func (d *LinkedList[T]) Last() (data T, ok bool) {
 	if d.IsEmpty() {
 		return
 	}
@@ -38,7 +42,8 @@ func (d *DoublyLinkedList[T]) Last() (data T, ok bool) {
 	return d.trailer.Prev.Data, true
 }
 
-func (d *DoublyLinkedList[T]) AddBetween(data T, predecessor *Node[T], successor *Node[T]) {
+// AddBetween gets two nodes, constructs a new node out of the given data and adds that node in between them.
+func (d *LinkedList[T]) AddBetween(data T, predecessor *Node[T], successor *Node[T]) {
 	newNode := &Node[T]{Data: data, Next: successor, Prev: predecessor}
 
 	predecessor.Next = newNode
@@ -47,15 +52,18 @@ func (d *DoublyLinkedList[T]) AddBetween(data T, predecessor *Node[T], successor
 	d.Size++
 }
 
-func (d *DoublyLinkedList[T]) AddFirst(data T) {
+// AddFirst adds a new element to the first of the list.
+func (d *LinkedList[T]) AddFirst(data T) {
 	d.AddBetween(data, d.header, d.header.Next)
 }
 
-func (d *DoublyLinkedList[T]) AddLast(data T) {
+// AddLast adds a new element to the end of the list.
+func (d *LinkedList[T]) AddLast(data T) {
 	d.AddBetween(data, d.trailer.Prev, d.trailer)
 }
 
-func (d *DoublyLinkedList[T]) Remove(node *Node[T]) T {
+// Remove removes the given node from the list. It returns the removed node's data.
+func (d *LinkedList[T]) Remove(node *Node[T]) T {
 	predecessor := node.Prev
 	successor := node.Next
 
@@ -67,7 +75,8 @@ func (d *DoublyLinkedList[T]) Remove(node *Node[T]) T {
 	return node.Data
 }
 
-func (d *DoublyLinkedList[T]) RemoveFirst() (data T, ok bool) {
+// RemoveFirst removes and returns the first element of the list. It returns false if the list is empty.
+func (d *LinkedList[T]) RemoveFirst() (data T, ok bool) {
 	if d.IsEmpty() {
 		return
 	}
@@ -75,7 +84,8 @@ func (d *DoublyLinkedList[T]) RemoveFirst() (data T, ok bool) {
 	return d.Remove(d.header.Next), true
 }
 
-func (d *DoublyLinkedList[T]) RemoveLast() (data T, ok bool) {
+// RemoveLast removes and returns the last element of the list. It returns false if the list empty.
+func (d *LinkedList[T]) RemoveLast() (data T, ok bool) {
 	if d.IsEmpty() {
 		return
 	}
@@ -83,7 +93,8 @@ func (d *DoublyLinkedList[T]) RemoveLast() (data T, ok bool) {
 	return d.Remove(d.trailer.Prev), true
 }
 
-func (d *DoublyLinkedList[T]) String() string {
+// String retruns the string representation of the list.
+func (d *LinkedList[T]) String() string {
 	str := "[ "
 
 	for current := d.header.Next; current != d.trailer; current = current.Next {
@@ -95,27 +106,8 @@ func (d *DoublyLinkedList[T]) String() string {
 	return str
 }
 
-func (d *DoublyLinkedList[T]) Equals(other *DoublyLinkedList[T]) bool {
-	if other == nil || d.Size != other.Size {
-		return false
-	}
-
-	current1 := d.header.Next
-	current2 := other.header.Next
-
-	for current1 != nil {
-		if !current1.Equals(current2) {
-			return false
-		}
-
-		current1 = current1.Next
-		current2 = current2.Next
-	}
-
-	return true
-}
-
-func (d *DoublyLinkedList[T]) Clone() *DoublyLinkedList[T] {
+// Clone constructs and returns a clone of the list.
+func (d *LinkedList[T]) Clone() *LinkedList[T] {
 	newDoubly := New[T]()
 
 	if d.IsEmpty() {
@@ -146,7 +138,8 @@ func (d *DoublyLinkedList[T]) Clone() *DoublyLinkedList[T] {
 	return newDoubly
 }
 
-func (d *DoublyLinkedList[T]) ToSlice() []T {
+// ToSlice returns a slice of the list's elements.
+func (d *LinkedList[T]) ToSlice() []T {
 	r := make([]T, d.Size)
 
 	for i, cur := 0, d.header.Next; cur != d.trailer && i < len(r); i, cur = i+1, cur.Next {
