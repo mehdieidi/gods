@@ -18,17 +18,18 @@ func (q *LinkedQueue[T]) Enqueue(data T) {
 	q.data.AddLast(data)
 }
 
-// Dequeue removes the front element of the queue and returns it. It returns false if the queue was empty.
+// Dequeue removes the front element of the queue, returns it, and returns true. It returns false
+// and zero-value if the queue was empty.
 func (q *LinkedQueue[T]) Dequeue() (val T, ok bool) {
 	return q.data.RemoveFirst()
 }
 
-// First returns the front element of the queue. It returns false if the queue was empty.
+// First returns the front element of the queue and true. It returns false and zero-value if the queue was empty.
 func (q *LinkedQueue[T]) First() (val T, ok bool) {
 	return q.data.First()
 }
 
-// Size returns the number of elements in the queue.
+// Size returns the count of the elements in the queue.
 func (q *LinkedQueue[T]) Size() int {
 	return q.data.Size
 }

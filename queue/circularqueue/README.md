@@ -2,6 +2,9 @@
 
 Package circularqueue implements a circular queue using a circular linked list.
 
+The key point of a circular queue is the Rotate operation which can move the front element to the
+end of the queue.
+
 Supported operations:
 * Enqueue -> O(1)
 * Dequeue -> O(1)
@@ -9,7 +12,7 @@ Supported operations:
 * Size	 -> O(1)
 * IsEmpty -> O(1)
 * Rotate	 -> O(1)
-
+* String  -> O(n)
 
 Factory functions:
 * New	 -> O(1)

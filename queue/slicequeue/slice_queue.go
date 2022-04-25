@@ -16,7 +16,8 @@ func (q *SliceQueue[T]) Enqueue(data T) {
 	q.data = append(q.data, data)
 }
 
-// Dequeue removes the front element of the queue and returns it. It returns false if the queue was empty.
+// Dequeue removes the front element of the queue, returns it, and returns true. It returns false
+// and zero-value if the queue was empty.
 func (q *SliceQueue[T]) Dequeue() (val T, ok bool) {
 	if q.IsEmpty() {
 		return
@@ -29,7 +30,7 @@ func (q *SliceQueue[T]) Dequeue() (val T, ok bool) {
 	return val, true
 }
 
-// First returns the front element of the queue. It returns false if the queue was empty.
+// First returns the front element of the queue and true. It returns false and zero-value if the queue was empty.
 func (q *SliceQueue[T]) First() (val T, ok bool) {
 	if q.IsEmpty() {
 		return
@@ -38,7 +39,7 @@ func (q *SliceQueue[T]) First() (val T, ok bool) {
 	return q.data[0], true
 }
 
-// Size returns the number of elements in the queue.
+// Size returns the count of the elements in the queue.
 func (q *SliceQueue[T]) Size() int {
 	return len(q.data)
 }
