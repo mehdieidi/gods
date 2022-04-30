@@ -9,6 +9,8 @@ Library of generic data structures for Go.
 * [tree](./tree/)
   * [binary tree](./tree/binarytree/)
   * [general tree](./tree/generaltree/)
+* [map](./map/)
+  * [unsorted table map](./map/unsortedtablemap/)
 * [queue](./queue/)
   * [queue using linked list](./queue/linkedqueue/)
   * [queue using slice](./queue/slicequeue/)
