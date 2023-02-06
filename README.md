@@ -1,4 +1,4 @@
-# gods
+# [DEPRECATED] (Use https://github.com/golang-ds)
 Library of generic data structures for Go.
 
 * [priority queue](./priorityqueue/)
